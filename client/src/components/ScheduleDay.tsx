@@ -2,10 +2,10 @@ import React from "react";
 
 interface ScheduleDayProps {
   date: Date;
-  location: string;
   index: number;
   endDate: Date;
-  onLocationChange?: (newLocation: string) => void;
+  location: string;
+  onLocationChange?: (value: string) => void;
 }
 
 const ScheduleDay: React.FC<ScheduleDayProps> = ({
@@ -13,6 +13,7 @@ const ScheduleDay: React.FC<ScheduleDayProps> = ({
   location,
   index,
   endDate,
+  onLocationChange,
 }) => {
   return (
     <div className="schedule-day">

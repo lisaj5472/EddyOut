@@ -1,11 +1,14 @@
+import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import ScheduleDay from "../components/ScheduleDay";
-import TripData from "../interfaces/TripData";
+import { TripData } from "../interfaces/TripData";
 import { useParams } from "react-router-dom";
+import Nav from "../components/Nav";
 
-const FloatPlan: React.FC = () => {
+export default function FloatPlan() {
   const [trip, setTrip] = useState<TripData | null>(null);
+  const [locations, setLocations] = useState<string[]>([]);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -80,4 +83,4 @@ const FloatPlan: React.FC = () => {
       </div>
     </>
   );
-};
+}
