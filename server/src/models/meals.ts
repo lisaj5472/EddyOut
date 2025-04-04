@@ -1,13 +1,16 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
+type mealType = 'breakfast' | 'lunch' | 'dinner';
 
 interface MealAttributes {
     id:number;
     mealName:number;
     crewMember:string;
-    tripName:string;
-    tripid:number;
+    mealType: mealType;
+    tripId:number;
 }
+
+//TODO create breakfast lunch and dinner objects
 
 interface MealCreationAttributes extends Optional<MealAttributes, 'id'> {}
 
@@ -16,8 +19,7 @@ extends Model<MealAttributes, MealCreationAttributes> {
     public id!: number;
     public mealName!: string;
     public crewMember!: string;
-    public tripname: string;
-    public tripid!: number;
+    public tripId!: number;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
@@ -40,11 +42,11 @@ export function MealFactory(sequelize: Sequelize):typeof Meals {
                 allowNull: false,
                 unique: true,
             },
-            tripName: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
+            mealType: {
+                type: DataTypes.STRING,
+                allowNull:false
             },
-            tripid: {
+            tripId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },

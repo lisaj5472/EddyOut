@@ -2,18 +2,24 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
 interface GearAttributes {
     id: number;
-    gearitem: string;
+    gearItem: string;
     quantity: number;
-    crewmember?: string;
+    crewMember?: string;
 }
 
+
 // Removed GearCreationAttributes as it was redundant
+=======
+//TODO create meal array
+
+// interface GearCreationAttributes extends Optional<GearAttributes, "id"> { }
+
 
 export class Gear extends Model<GearAttributes, Optional<GearAttributes, "id">> implements GearAttributes {
     public id!: number;
-    public gearitem!: string;
+    public gearItem!: string;
     public quantity!: number;
-    public crewmember!: string;
+    public crewMember!: string;
 
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
@@ -26,7 +32,7 @@ export function GearFactory(sequelize: Sequelize): typeof Gear {
             autoIncrement: true,
             primaryKey: true,
         },
-        gearitem: {
+        gearItem: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -34,7 +40,7 @@ export function GearFactory(sequelize: Sequelize): typeof Gear {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        crewmember: {
+        crewMember: {
             type: DataTypes.STRING,
             allowNull: true,
         },
