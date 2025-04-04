@@ -7,7 +7,7 @@ interface CrewAttributes {
     username: string;
     email: string;
     tripName: string;
-    tripid:number;
+    tripId:number;
 }
 
 
@@ -17,8 +17,8 @@ export class Crew extends Model<CrewAttributes, Trip> {
     public id!: string;
     public username!: string;
     public email!: string;
-    public tripname!: string;
-    public tripid!: number;
+    public tripName!: string;
+    public tripId!: number;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;    
@@ -43,7 +43,7 @@ export function CrewFactory(sequelize: Sequelize): typeof Crew {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        tripid: {
+        tripId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
