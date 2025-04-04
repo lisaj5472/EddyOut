@@ -2,13 +2,15 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
 interface TripAttributes {
   id: number;
-  tripname: string;
-  startdate: string;
-  enddate: string;
-  putin: string;
-  takeout: string;
-  crewnum: number;
+  tripName: string;
+  startDate: string;
+  endDate: string;
+  putIn: string;
+  takeOut: string;
+  crewNum: number;
 }
+
+
 
 interface TripCreationAttributes extends Optional<TripAttributes, "id"> {}
 
@@ -17,12 +19,12 @@ export class Trip
   implements TripAttributes
 {
   public id!: number;
-  public tripname!: string;
-  public startdate!: string;
-  public enddate!: string;
-  public putin!: string;
-  public takeout!: string;
-  public crewnum: number;
+  public tripName!: string;
+  public startDate!: string;
+  public endDate!: string;
+  public putIn!: string;
+  public takeOut!: string;
+  public crewNum: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -35,27 +37,27 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
       autoIncrement: true,
       primaryKey: true,
     },
-    tripname: {
+    tripName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    startdate: {
+    startDate: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    enddate: {
+    endDate: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    putin: {
+    putIn: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    takeout: {
+    takeOut: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    crewnum: {
+    crewNum: {
       type: DataTypes.INTEGER,
     },
   },
