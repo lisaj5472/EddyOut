@@ -1,6 +1,4 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
-// import { Gear } from "./gear"
-import { Trip } from "./trip";
 
 interface GearAttributes {
     id: number;
@@ -9,9 +7,9 @@ interface GearAttributes {
     crewmember?: string;
 }
 
-interface GearCreationAttributes extends Optional<GearAttributes, "id"> { }
+// Removed GearCreationAttributes as it was redundant
 
-export class Gear extends Model<GearAttributes, GearCreationAttributes> implements GearAttributes {
+export class Gear extends Model<GearAttributes, Optional<GearAttributes, "id">> implements GearAttributes {
     public id!: number;
     public gearitem!: string;
     public quantity!: number;
