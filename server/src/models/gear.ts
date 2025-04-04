@@ -1,6 +1,4 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
-// import { Gear } from "./gear"
-import { Trip } from "./trip";
 
 interface GearAttributes {
     id: number;
@@ -9,11 +7,15 @@ interface GearAttributes {
     crewMember?: string;
 }
 
+
+// Removed GearCreationAttributes as it was redundant
+=======
 //TODO create meal array
 
-interface GearCreationAttributes extends Optional<GearAttributes, "id"> { }
+// interface GearCreationAttributes extends Optional<GearAttributes, "id"> { }
 
-export class Gear extends Model<GearAttributes, GearCreationAttributes> implements GearAttributes {
+
+export class Gear extends Model<GearAttributes, Optional<GearAttributes, "id">> implements GearAttributes {
     public id!: number;
     public gearItem!: string;
     public quantity!: number;
