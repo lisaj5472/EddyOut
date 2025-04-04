@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
 import { useParams } from "react-router-dom";
@@ -13,8 +11,12 @@ export default function FloatPlan() {
 
   useEffect(() => {
     async function fetchTrip() {
+      console.log("Fetching trip from:", `/api/trips/${id}`);
       const res = await fetch(`/api/trips/${id}`);
       const data = await res.json();
+
+      console.log("Trip data:", data); // Debugging line
+
       setTrip({
         ...data,
         startDate: new Date(data.startDate),
@@ -84,5 +86,3 @@ export default function FloatPlan() {
     </>
   );
 }
-
-// adding comment to create new commit

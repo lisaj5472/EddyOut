@@ -22,42 +22,52 @@ export class Trip
   public enddate!: string;
   public putin!: string;
   public takeout!: string;
+  public crewnum!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 export function TripFactory(sequelize: Sequelize): typeof Trip {
-  Trip.init({
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  Trip.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      tripname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      startdate: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      enddate: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      putin: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      takeout: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      crewnum: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
-    tripname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    startdate: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    enddate: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    putin: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    takeout: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    crewnum: {
-      type: DataTypes.INTEGER,
-    },
-  });
+    {
+      sequelize,
+      modelName: "Trip",
+      tableName: "trips",
+      timestamps: true,
+    }
+  );
 
   return Trip;
 }
