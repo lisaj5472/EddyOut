@@ -6,7 +6,7 @@ import type { UserLogin } from "../interfaces/UserLogin";
 
 const Login = () => {
   const [loginData, setLoginData] = useState<UserLogin>({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -40,7 +40,7 @@ const Login = () => {
             className="form-input"
             type="text"
             name="username"
-            value={loginData.username || ""}
+            value={loginData.email || ""}
             onChange={handleChange}
           />
         </div>
