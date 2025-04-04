@@ -7,7 +7,7 @@ import "./App.css";
 
 // Remove the following after testing:
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import FloatPlan from "./pages/FloatPlan";
+import FloatPlan from "./components/FloatPlan";
 
 function App() {
   return (
