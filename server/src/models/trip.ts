@@ -22,6 +22,7 @@ export class Trip
   public enddate!: string;
   public putin!: string;
   public takeout!: string;
+  public crewnum: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -57,7 +58,11 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
     crewnum: {
       type: DataTypes.INTEGER,
     },
-  });
-
+  },
+  {
+    tableName: 'trips',
+    sequelize,
+  }
+);
   return Trip;
 }
