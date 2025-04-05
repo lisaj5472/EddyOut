@@ -28,7 +28,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: var (--color-primary);
+  color: var(--color-primary);
 }
 
 body {
@@ -75,7 +75,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: var (--color-dark-accent);
+    color: var(--color-dark-accent);
     background-color: #ffffff;
   }
   a:hover {

@@ -31,16 +31,16 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /trips - Create a new trip
 router.post("/", async (req: Request, res: Response) => {
-  const { tripname, startdate, enddate, putin, takeout, crewnum } = req.body;
+  const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
   console.log("Incoming body:", req.body); // Debugging line");
   try {
     const newTrip = await Trip.create({
-      tripname,
-      startdate,
-      enddate,
-      putin,
-      takeout,
-      crewnum,
+      riverName,
+      startDate,
+      endDate,
+      putIn,
+      takeOut,
+      crewNum,
     });
     res.status(201).json(newTrip);
   } catch (error: any) {
@@ -51,16 +51,16 @@ router.post("/", async (req: Request, res: Response) => {
 // PUT /trips/:id - Update a trip by id
 router.put("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { tripname, startdate, enddate, putin, takeout, crewnum } = req.body;
+  const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
   try {
     const trip = await Trip.findByPk(id);
     if (trip) {
-      trip.tripname = tripname;
-      trip.startdate = startdate;
-      trip.enddate = enddate;
-      trip.putin = putin;
-      trip.takeout = takeout;
-      trip.crewnum = crewnum;
+      trip.riverName = riverName;
+      trip.startDate = startDate;
+      trip.endDate = endDate;
+      trip.putIn = putIn;
+      trip.takeOut = takeOut;
+      trip.crewNum = crewNum;
       await trip.save();
       res.json(trip);
     } else {

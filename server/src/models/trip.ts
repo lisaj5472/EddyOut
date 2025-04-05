@@ -22,7 +22,7 @@ export class Trip
   public endDate!: string;
   public putIn!: string;
   public takeOut!: string;
-  public crewNum: string;
+  public crewNum!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

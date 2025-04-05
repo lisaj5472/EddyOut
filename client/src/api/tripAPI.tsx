@@ -1,5 +1,4 @@
 import { TripData } from "../interfaces/TripData";
-import { ApiMessage } from "../interfaces/ApiMessage";
 import Auth from "../utils/auth";
 import { GearList as GearListInterface } from "../interfaces/GearListData"
 
