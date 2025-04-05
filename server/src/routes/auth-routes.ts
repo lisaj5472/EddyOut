@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
 const router = express.Router();
 
 // POST /login - Login a user
-router.post("/login", (req, res, next) => {
+router.post("api/login", (req, res, next) => {
   login(req, res).catch(next);
 });
 

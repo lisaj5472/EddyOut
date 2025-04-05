@@ -3,7 +3,7 @@ import { UserLogin } from "../interfaces/UserLogin";
 export const login = async (body: UserLogin) => {
     try {
         const response = await fetch(
-            'api/login', {
+            'auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -21,8 +21,8 @@ export class Gear extends Model<GearAttributes, Optional<GearAttributes, "id">> 
     public quantity!: number;
     public crewMember!: string;
 
-    public readonly createdAt: Date;
-    public readonly updatedAt: Date;
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
 }
 
 export function GearFactory(sequelize: Sequelize): typeof Gear {
