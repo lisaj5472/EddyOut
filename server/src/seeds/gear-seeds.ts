@@ -1,4 +1,4 @@
-import { Gear } from "../models/gear";
+import { Gear } from "../models/gearlist";
 
 export const seedGear = async () => {
     await Gear.bulkCreate([
