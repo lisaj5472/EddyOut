@@ -3,13 +3,25 @@ import { Crew } from "../models/crew";
 export const seedCrew = async () => {
     await Crew.bulkCreate([
         {
-            userName: "justinv",
+            id: 1,
+            username: "justinv",
+            email: 'justin@email.com',
+            tripName: 'Happy',
+            tripId: 1
         },
         {
-            userName: "lisaj",
+            id: 2,
+            username: "lisaj",
+            email: 'lisaj@email.com',
+            tripName: 'Happy',
+            tripId: 1
         },
         {
-            userName: "ellim",
+            id: 3,
+            username: "ellim",
+            email: 'ellim@email.com',
+            tripName: 'Happy',
+            tripId: 1
         },
     ]);
 };
