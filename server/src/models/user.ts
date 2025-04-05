@@ -8,12 +8,12 @@ interface UserAttributes {
   password: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+// EM: This warning appears to be a false positive warning on the UserCreationAttributes, leaving warning for now.
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> { }
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
-{
+  implements UserAttributes {
   public id!: number;
   public username!: string;
   public email!: string;
@@ -26,6 +26,10 @@ export class User
   public async setPassword(password: string) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(password, saltRounds);
+  }
+  // Password validation during login
+  public async validatePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
   }
 }
 
@@ -49,16 +53,23 @@ export function UserFactory(sequelize: Sequelize): typeof User {
         type: DataTypes.STRING,
         allowNull: false,
       },
+
     },
     {
       tableName: "users",
       sequelize,
+      defaultScope: {
+        attributes: { exclude: ["password"] }
+      },
       hooks: {
         beforeCreate: async (user: User) => {
           await user.setPassword(user.password);
         },
         beforeUpdate: async (user: User) => {
-          await user.setPassword(user.password);
+          //prevents double hashing
+          if (user.changed("password")) {
+            await user.setPassword(user.password);
+          }
         },
       },
     }

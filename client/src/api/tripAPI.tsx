@@ -1,5 +1,9 @@
 import { TripData } from "../interfaces/TripData";
 import Auth from "../utils/auth";
+import { GearList as GearListInterface } from "../interfaces/GearListData"
+
+//
+
 
 const retrieveTickets = async () => {
   try {
