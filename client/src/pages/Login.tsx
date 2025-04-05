@@ -6,6 +6,7 @@ import type { UserLogin } from "../interfaces/UserLogin";
 
 const Login = () => {
   const [loginData, setLoginData] = useState<UserLogin>({
+    username: "",
     email: "",
     password: "",
   });
