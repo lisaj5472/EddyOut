@@ -1,12 +1,22 @@
-import type { TripFormData, TripData } from "../interfaces/TripData";
+import { TripFormData, TripData } from "../interfaces/TripData";
 
-function convertFormToTripData(formData: TripFormData): TripData {
+export default function transformTrip(formData: TripFormData): TripData {
+  if (!formData.id) {
+    throw new Error("TripFormData is missing a valid id.");
+  }
+
+  const parsedCrewNum = Number(formData.crewNum);
+  if (isNaN(parsedCrewNum) || parsedCrewNum < 1) {
+    throw new Error("Invalid crew number.");
+  }
+
   return {
-    ...formData,
+    id: formData.id,
+    riverName: formData.riverName,
     startDate: new Date(formData.startDate),
     endDate: new Date(formData.endDate),
-    id: formData.id,
+    putIn: formData.putIn,
+    takeOut: formData.takeOut,
+    crewNum: parsedCrewNum,
   };
 }
-
-export default convertFormToTripData;

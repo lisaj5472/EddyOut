@@ -1,15 +1,15 @@
 export interface TripFormData {
-  id: number;
+  id?: string;
   riverName: string;
   startDate: string;
   endDate: string;
   putIn: string;
   takeOut: string;
-  crewNum: number;
+  crewNum: string;
 }
 
 export interface TripData {
-  id: number;
+  id: string;
   riverName: string;
   startDate: Date;
   endDate: Date;

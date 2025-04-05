@@ -1,15 +1,13 @@
 import express from "express";
 import type { Request, Response } from "express";
-import { Trip } from "../../models/index.js";
+import { Trip } from "../../models/trip";
 
 const router = express.Router();
 
 // GET /trips - Get all trips
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    const trips = await Trip.findAll({
-      attributes: { exclude: ["password"] },
-    });
+    const trips = await Trip.findAll();
     res.json(trips);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -34,6 +32,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 // POST /trips - Create a new trip
 router.post("/", async (req: Request, res: Response) => {
   const { tripname, startdate, enddate, putin, takeout, crewnum } = req.body;
+  console.log("Incoming body:", req.body); // Debugging line");
   try {
     const newTrip = await Trip.create({
       tripname,
@@ -52,12 +51,16 @@ router.post("/", async (req: Request, res: Response) => {
 // PUT /trips/:id - Update a trip by id
 router.put("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { tripname, password } = req.body;
+  const { tripname, startdate, enddate, putin, takeout, crewnum } = req.body;
   try {
     const trip = await Trip.findByPk(id);
     if (trip) {
       trip.tripname = tripname;
-      trip.password = password;
+      trip.startdate = startdate;
+      trip.enddate = enddate;
+      trip.putin = putin;
+      trip.takeout = takeout;
+      trip.crewnum = crewnum;
       await trip.save();
       res.json(trip);
     } else {

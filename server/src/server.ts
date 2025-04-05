@@ -11,8 +11,14 @@ app.use(express.static("../client/dist"));
 app.use(express.json());
 app.use(routes);
 
-sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-  });
+// Uncomment below for production
+// sequelize.sync({ force: forceDatabaseRefresh }).then(() => {
+//   app.listen(PORT, () => {
+//     console.log(`Server is listening on port ${PORT}`);
+//   });
+// });
+
+// Comment this out after testing:
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT} (no DB sync)`);
 });

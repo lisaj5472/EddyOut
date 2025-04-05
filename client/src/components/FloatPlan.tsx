@@ -1,8 +1,5 @@
-//Moved this to a component from a page (FYI Lisa!!)
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import ScheduleDay from "./ScheduleDay";
+import { useState, useEffect } from "react";
+import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
 import { useParams } from "react-router-dom";
 import Nav from "./Nav";
@@ -16,6 +13,7 @@ export default function FloatPlan() {
     async function fetchTrip() {
       const res = await fetch(`/api/trips/${id}`);
       const data = await res.json();
+
       setTrip({
         ...data,
         startDate: new Date(data.startDate),
@@ -33,7 +31,11 @@ export default function FloatPlan() {
   }, [id]);
 
   if (!trip) {
-    return <div>Loading...</div>;
+    return (
+      <div className="text-center mt-10 text-textBody font-body text-lg">
+        Loading...
+      </div>
+    );
   }
 
   function getTripDates(startDate: Date, endDate: Date): Date[] {
@@ -50,40 +52,44 @@ export default function FloatPlan() {
 
   return (
     <>
-      <Nav></Nav>
-      <div>
-        <h1>Float Plan</h1>
-        <div className="container">
-          <div className="row">
-            <div className="col-12 col-md-6">
-              <h2>Trip Details</h2>
-              <p>River Name: {trip.riverName}</p>
-              <p>
-                Start Date: {trip.startDate.toLocaleDateString()} to End Date:{" "}
-                {trip.endDate.toLocaleDateString()}
-              </p>
-            </div>
-            <div className="col-12 col-md-6">
-              {tripDates.map((date, i) => (
-                <ScheduleDay
-                  key={date.toISOString()}
-                  date={date}
-                  index={i + 1}
-                  endDate={trip.endDate}
-                  location={locations[i] || ""}
-                  onLocationChange={(newLoc) => {
-                    const updated = [...locations];
-                    updated[i] = newLoc;
-                    setLocations(updated);
-                  }}
-                />
-              ))}
-            </div>
+      <Nav />
+      <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
+        <h1 className="text-4xl font-header text-primary mb-6 text-center">
+          Float Plan
+        </h1>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-header text-dark-accent mb-4">
+              Trip Details
+            </h2>
+            <p className="mb-2">
+              <strong>River Name:</strong> {trip.riverName}
+            </p>
+            <p>
+              <strong>Dates:</strong> {trip.startDate.toLocaleDateString()} –{" "}
+              {trip.endDate.toLocaleDateString()}
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {tripDates.map((date, i) => (
+              <ScheduleDay
+                key={date.toISOString()}
+                date={date}
+                index={i + 1}
+                endDate={trip.endDate}
+                location={locations[i] || ""}
+                onLocationChange={(newLoc) => {
+                  const updated = [...locations];
+                  updated[i] = newLoc;
+                  setLocations(updated);
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
     </>
   );
 }
-
-// adding comment to create new commit
