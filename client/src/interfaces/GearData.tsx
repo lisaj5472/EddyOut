@@ -1,10 +1,11 @@
 import { UserData } from "./UserData";
 
-export interface TicketData {
+export interface GearItem {
   id: number | null;
   name: string | null;
-  description: string | null;
-  status: string | null;
-  assignedUserId: number | null;
-  assignedUser: UserData | null;
+  tripId: string | null;
+  claimedBy: string | null;
+    crewID: number | null;
+    //should this be crewdata?
+    assignedUser: UserData | null;
 }
