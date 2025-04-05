@@ -2,15 +2,13 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
 interface TripAttributes {
   id: number;
-  tripName: string;
+  riverName: string;
   startDate: string;
   endDate: string;
   putIn: string;
   takeOut: string;
   crewNum: number;
 }
-
-
 
 interface TripCreationAttributes extends Optional<TripAttributes, "id"> {}
 
@@ -19,12 +17,12 @@ export class Trip
   implements TripAttributes
 {
   public id!: number;
-  public tripName!: string;
+  public riverName!: string;
   public startDate!: string;
   public endDate!: string;
   public putIn!: string;
   public takeOut!: string;
-  public crewNum: number;
+  public crewNum: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -38,32 +36,31 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         autoIncrement: true,
         primaryKey: true,
       },
-      tripname: {
+      riverName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      startdate: {
+      startDate: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      enddate: {
+      endDate: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      putin: {
+      putIn: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      takeout: {
+      takeOut: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      crewnum: {
+      crewNum: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
-<<<<<<< HEAD
     {
       sequelize,
       modelName: "Trip",
@@ -72,36 +69,5 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
     }
   );
 
-=======
-    tripName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    startDate: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    endDate: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    putIn: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    takeOut: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    crewNum: {
-      type: DataTypes.INTEGER,
-    },
-  },
-  {
-    tableName: 'trips',
-    sequelize,
-  }
-);
->>>>>>> 77ab8c5dacde23109caee124124ff4b30e1159c3
   return Trip;
 }
