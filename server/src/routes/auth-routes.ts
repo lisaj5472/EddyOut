@@ -2,7 +2,7 @@ import express from "express";
 import { type Request, type Response } from "express";
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
 const router = express.Router();
 
 // POST /login - Login a user
-router.post("/login", (req, res, next) => {
+router.post("api/login", (req, res, next) => {
   login(req, res).catch(next);
 });
 

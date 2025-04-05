@@ -1,5 +1,5 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
-import { Trip } from "./trip";
+
 
 //Create the items that are unique to crew
 interface CrewAttributes {
@@ -13,7 +13,7 @@ interface CrewAttributes {
 
 
 //extends the trip information associated with the crew member
-export class Crew extends Model<CrewAttributes, Trip> {
+export class Crew extends Model<CrewAttributes> {
     public id!: string;
     public username!: string;
     public email!: string;

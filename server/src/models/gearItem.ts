@@ -5,6 +5,7 @@ interface GearItemAttributes {
     gearItem: string;
     quantity: number;
     claimedBy?: number;
+    gearListId:number;
     // gearListId: number;
 
 }
@@ -20,6 +21,7 @@ export class GearItem
     public gearItem!: string;
     public quantity!: number;
     public claimedBy?: number;
+    public gearListId!: number;
     // public gearListId!: number;
 
     public readonly createdAt!: Date;
@@ -45,10 +47,10 @@ export function GearItemFactory(sequelize: Sequelize): typeof GearItem {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        // gearListItem: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false,
-        // }
+        gearListId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     }, {
         sequelize,
         tableName: "GearItems",

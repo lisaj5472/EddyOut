@@ -31,10 +31,11 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /trips - Create a new trip
 router.post("/", async (req: Request, res: Response) => {
-  const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
+  const { username, riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
   console.log("Incoming body:", req.body); // Debugging line");
   try {
     const newTrip = await Trip.create({
+      username,
       riverName,
       startDate,
       endDate,

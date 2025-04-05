@@ -1,12 +1,12 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
-type mealType = 'breakfast' | 'lunch' | 'dinner';
+type mealType = 'Breakfast' | 'Lunch' | 'Dinner';
 
 interface MealAttributes {
     id:number;
-    mealName:number;
-    crewMember:string;
+    mealName:string;
     mealType: mealType;
+    crewMember:string;
     tripId:number;
 }
 
@@ -37,14 +37,14 @@ export function MealFactory(sequelize: Sequelize):typeof Meals {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            mealType: {
+                type: DataTypes.STRING,
+                allowNull:false
+            },
             crewMember: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
-            },
-            mealType: {
-                type: DataTypes.STRING,
-                allowNull:false
             },
             tripId: {
                 type: DataTypes.INTEGER,

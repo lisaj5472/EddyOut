@@ -1,36 +1,48 @@
-import { Gear } from "../models/gearlist";
+import { GearItem } from "../models/gearItem";
 
 export const seedGear = async () => {
-    await Gear.bulkCreate([
+    await GearItem.bulkCreate([
         {
+            id: 1,
             gearItem: "Stove",
             quantity: 1,
-            crewMember: "Lisa"
+            claimedBy: 2,
+            gearListId: 1,
         },
         {
+            id: 2,
             gearItem: "Water Jugs",
             quantity: 7,
-            crewMember: "Lisa"
+            claimedBy: 2,
+            gearListId: 1,
         },
         {
+            id: 3,
             gearItem: "Table",
             quantity: 3,
-            crewMember: "Justin"
+            claimedBy: 1,
+            gearListId: 1,
         },
         {
+            id: 4,
             gearItem: "Groover",
             quantity: 1,
-            crewMember: "Elli"
+            claimedBy: 3,
+            gearListId: 1,
         },
         {
+            id: 5,
             gearItem: "Toilet Paper Rolls",
             quantity: 5000,
-            crewMember: "Elli"
+            claimedBy: 3,
+            gearListId: 1,
         },
         {
+            id: 6,
             gearItem: "Sun Shelter",
             quantity: 1,
-            crewMember: "Justin"
+            claimedBy: 1,
+            gearListId: 1,
         },
     ]);
 };
