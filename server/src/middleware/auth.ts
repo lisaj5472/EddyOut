@@ -1,4 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload;
+    }
+  }
+}
 import jwt from "jsonwebtoken";
 
 interface JwtPayload {
@@ -17,7 +25,7 @@ export const authenticateToken = (
 
     const secretKey = process.env.JWT_SECRET_KEY || "";
 
-    jwt.verify(token, secretKey, (err, user) => {
+    jwt.verify(token, secretKey, (err: jwt.VerifyErrors | null, user: any) => {
       if (err) {
         return res.sendStatus(403); // Forbidden
       }

@@ -9,7 +9,7 @@ interface GearAttributes {
 
 
 // Removed GearCreationAttributes as it was redundant
-=======
+
 //TODO create meal array
 
 // interface GearCreationAttributes extends Optional<GearAttributes, "id"> { }
