@@ -1,11 +1,13 @@
-export default function PreLoginHome() {
+import Login from "../components/Login";
+
+export default function Home() {
   return (
     <div className="relative min-h-screen flex">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
-          backgroundImage: "url('/river.jpg')", // Place your river image in the public folder
+          backgroundImage: "url('/river.jpg')",
         }}
       ></div>
 
@@ -26,31 +28,7 @@ export default function PreLoginHome() {
 
       {/* Login Sidebar */}
       <div className="w-full sm:w-96 bg-white bg-opacity-90 z-20 p-6 shadow-xl">
-        <h2 className="text-2xl font-semibold mb-4">Login</h2>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium">Email</label>
-            <input
-              type="email"
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="you@example.com"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Password</label>
-            <input
-              type="password"
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="••••••••"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
-          >
-            Login
-          </button>
-        </form>
+        <Login />
       </div>
     </div>
   );
