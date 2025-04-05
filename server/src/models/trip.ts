@@ -4,24 +4,23 @@ interface TripAttributes {
   id: number;
   username: string;
   riverName: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   putIn: string;
   takeOut: string;
   crewNum: number;
 }
 
-interface TripCreationAttributes extends Optional<TripAttributes, "id"> {}
+interface TripCreationAttributes extends Optional<TripAttributes, "id"> { }
 
 export class Trip
   extends Model<TripAttributes, TripCreationAttributes>
-  implements TripAttributes
-{
+  implements TripAttributes {
   public id!: number;
   public username!: string;
   public riverName!: string;
-  public startDate!: string;
-  public endDate!: string;
+  public startDate!: Date;
+  public endDate!: Date;
   public putIn!: string;
   public takeOut!: string;
   public crewNum!: number;
@@ -47,11 +46,11 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         allowNull: false,
       },
       startDate: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false,
       },
       endDate: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false,
       },
       putIn: {

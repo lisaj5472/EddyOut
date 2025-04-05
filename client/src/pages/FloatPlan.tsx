@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
 import { useParams } from "react-router-dom";
-import Nav from "./Nav";
-import Footer from "./Footer";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default function FloatPlan() {
   const [trip, setTrip] = useState<TripData | null>(null);

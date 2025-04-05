@@ -1,37 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { GearItem as GearItemInterface } from "../interfaces/GearItemData";
 import GearItem from "../components/GearItem";
+import { useParams } from "react-router-dom";
 // import AddGearForm from "./AddGearForm";
 
-interface GearListProps {
-    tripId: number;
-    userId: number; 
-}
+// interface GearListProps {
+//     tripId: number;
+//     userId: number;
+// }
 
-const GearList: React.FC<GearListProps> = ({ tripId, userId }) => {
+const GearList: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const tripId = parseInt(id || "0");
+  const userId = 1;
+
   const [gearItems, setGearItems] = useState<GearItemInterface[]>([]); // Array of gear items
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch gear items for the trip
-const fetchGearItems = async () => {
-  try {
-    setLoading(true);
-    const response = await fetch(`/api/trips/${tripId}/gear`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch gear items");
+  const fetchGearItems = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/trips/${tripId}/gear`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch gear items");
+      }
+      const data: GearItemInterface[] = await response.json();
+      setGearItems(data);
+    } catch (error) {
+      console.error("Error fetching gear items:", error);
+    } finally {
+      setLoading(false);
     }
-    const data: GearItemInterface[] = await response.json();
-    setGearItems(data);
-  } catch (error) {
-    console.error("Error fetching gear items:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Toggle claim status
   const handleClaimToggle = async (itemId: number) => {
