@@ -5,7 +5,7 @@ export const seedTrip = async () => {
         await Trip.bulkCreate([
             {
                 id: 1,
-                username: 'justinv',
+                userName: 'justinv',
                 riverName: "San Juan River",
                 startDate: new Date("2024-06-06"),
                 endDate: new Date("2024-06-13"),
@@ -15,7 +15,7 @@ export const seedTrip = async () => {
             },
             {
                 id: 2,
-                username: 'lisaj',
+                userName: 'lisaj',
                 riverName: "Gates of Lodore",
                 startDate: new Date("2025-07-06"),
                 endDate: new Date("2025-07-11"),
@@ -25,7 +25,7 @@ export const seedTrip = async () => {
             },
             {
                 id: 3,
-                username: 'ellim',
+                userName: 'ellim',
                 riverName: "Middle Fork of the Salmon",
                 startDate: new Date("2025-05-30"),
                 endDate: new Date("2025-06-04"),
