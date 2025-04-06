@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Meal } from '../models/meals';
+import { Meals } from '../models/meals';
 
 export const getMeals = async (_req: Request, res: Response) => {
     try {
-        const meals = await Meal.findAll();
+        const meals = await Meals.findAll();
         res.json(meals);
     } catch (err: any) {
         res.status(500).json({ message: err.message });
@@ -12,7 +12,7 @@ export const getMeals = async (_req: Request, res: Response) => {
 
 export const createMeal = async (req: Request, res: Response) => {
     try {
-        const meal = await Meal.create(req.body);
+        const meal = await Meals.create(req.body);
         res.status(201).json(meal);
     } catch (err: any) {
         res.status(400).json({ message: err.message });
