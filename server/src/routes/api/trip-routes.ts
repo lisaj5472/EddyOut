@@ -89,3 +89,25 @@ router.delete("/:id", async (req: Request, res: Response) => {
 });
 
 export { router as tripRouter };
+
+// Setup as route only (separation of concerns)
+
+// import express from "express";
+// import {
+//   getAllTrips,
+//   getTripById,
+//   createTrip,
+//   updateTrip,
+//   deleteTrip,
+// } from "../controllers/tripController";
+
+// const router = express.Router();
+
+// router.get("/", getAllTrips);
+// router.get("/:id", getTripById);
+// router.post("/", createTrip);
+// router.put("/:id", updateTrip);
+// router.delete("/:id", deleteTrip);
+
+// export { router as tripRouter };
+
