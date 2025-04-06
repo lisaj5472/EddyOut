@@ -25,9 +25,9 @@ export const getTripById = async (req: Request, res: Response) => {
 };
 
 export const createTrip = async (req: Request, res: Response) => {
-    const { riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId } = req.body;
+    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId } = req.body;
     try {
-        const newTrip = await Trip.create({ riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId });
+        const newTrip = await Trip.create({ userName, riverName, startDate, endDate, putIn, takeOut, crewNum });
         res.status(201).json(newTrip);
     } catch (error: any) {
         res.status(400).json({ message: error.message });
@@ -36,16 +36,17 @@ export const createTrip = async (req: Request, res: Response) => {
 
 export const updateTrip = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
+    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
     try {
         const trip = await Trip.findByPk(id);
         if (trip) {
-            trip.riverName = riverName;
-            trip.startDate = startDate;
-            trip.endDate = endDate;
-            trip.putIn = putIn;
-            trip.takeOut = takeOut;
-            trip.crewNum = crewNum;
+            trip.userName = userName || trip.userName;
+            trip.riverName = riverName || trip.riverName;
+            trip.startDate = startDate || trip.startDate;
+            trip.endDate = endDate || trip.startDate;
+            trip.putIn = putIn || trip.putIn;
+            trip.takeOut = takeOut || trip.takeOut;
+            trip.crewNum = crewNum || trip.crewNum;
             await trip.save();
             res.json(trip);
         } else {
