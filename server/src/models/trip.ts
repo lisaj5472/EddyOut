@@ -2,7 +2,7 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
 interface TripAttributes {
   id: number;
-  username: string;
+  userName: string;
   riverName: string;
   startDate: Date;
   endDate: Date;
@@ -17,7 +17,7 @@ export class Trip
   extends Model<TripAttributes, TripCreationAttributes>
   implements TripAttributes {
   public id!: number;
-  public username!: string;
+  public userName!: string;
   public riverName!: string;
   public startDate!: Date;
   public endDate!: Date;
@@ -37,7 +37,7 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         autoIncrement: true,
         primaryKey: true,
       },
-      username: {
+      userName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
