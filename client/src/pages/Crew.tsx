@@ -7,35 +7,66 @@ import { UserData } from "../interfaces/UserData";
 export default function Crew() {
   const { id } = useParams<{ id: string }>();
   const [crew, setCrew] = useState<UserData[]>([]);
+  const [user, setUser] = useState<UserData | null>(null);
   const [isMember, setIsMember] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user") || "{}"); // assumes you store user here
 
   useEffect(() => {
     async function fetchCrew() {
-      const res = await fetch(`/api/trips/${id}/crew`);
-      const data = await res.json();
-      setCrew(data);
+      const token = localStorage.getItem("token");
 
-      const alreadyMember = data.some(
-        (member: UserData) => member.id === user.id
+      if (!token) {
+        console.error("No auth token found");
+        return;
+      }
+
+      const [userRes, crewRes] = await Promise.all([
+        fetch("/api/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        fetch(`/api/trips/${id}/crew`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
+
+      if (!userRes.ok || !crewRes.ok) {
+        console.error("Failed to fetch crew or user data");
+        return;
+      }
+
+      const userData = await userRes.json();
+      const crewData = await crewRes.json();
+
+      setCrew(crewData);
+      setUser(userData); // you’ll need to add `const [user, setUser] = useState<UserData | null>(null)`
+      setIsMember(
+        crewData.some((member: UserData) => member.id === userData.id)
       );
-      setIsMember(alreadyMember);
     }
 
     fetchCrew();
-  }, [id, user.id]);
+  }, [id]);
+
+  if (!user) return <p className="text-center">Loading...</p>;
 
   async function handleJoinCrew() {
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`/api/trips/${id}/crew`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ userId: user.id }),
     });
 
-    if (res.ok) {
-      setCrew((prev) => [...prev, user]);
+    if (res.ok && user) {
+      setCrew((prev) =>
+        prev.some((m) => m.id === user.id) ? prev : [...prev, user]
+      );
       setIsMember(true);
     }
   }
