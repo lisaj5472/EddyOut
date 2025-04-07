@@ -1,10 +1,8 @@
-import { UserData } from "./UserData";
-
-export interface TicketData {
+export interface MealData {
   id: number | null;
-  name: string | null;
-  description: string | null;
-  status: string | null;
-  assignedUserId: number | null;
-  assignedUser: UserData | null;
+  mealType: string;
+  mealName: string;
+  description?: string | null;
+  crewMember: string;
+  tripId: string;
 }
