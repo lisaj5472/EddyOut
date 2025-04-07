@@ -1,5 +1,6 @@
 export interface TripFormData {
   id?: string;
+  userName: string;
   riverName: string;
   startDate: string;
   endDate: string;
@@ -10,6 +11,7 @@ export interface TripFormData {
 
 export interface TripData {
   id: string;
+  userName: string;
   riverName: string;
   startDate: Date;
   endDate: Date;
