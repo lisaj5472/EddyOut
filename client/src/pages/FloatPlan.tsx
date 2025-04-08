@@ -4,6 +4,7 @@ import { TripData } from "../interfaces/TripData";
 import { useParams } from "react-router-dom";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import TripSummaryCard from "../components/TripSummaryCard";
 
 export default function FloatPlan() {
   const [trip, setTrip] = useState<TripData | null>(null);
@@ -62,36 +63,23 @@ export default function FloatPlan() {
             Float Plan
           </h1>
 
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-header text-dark-accent mb-4">
-                Trip Details
-              </h2>
-              <p className="mb-2">
-                <strong>River Name:</strong> {trip.riverName}
-              </p>
-              <p>
-                <strong>Dates:</strong> {trip.startDate.toLocaleDateString()} –{" "}
-                {trip.endDate.toLocaleDateString()}
-              </p>
-            </div>
+          {trip && <TripSummaryCard trip={trip} />}
 
-            <div className="col-12 col-md-6 overflow-y-auto max-h-[80vh] pr-2">
-              {tripDates.map((date, i) => (
-                <ScheduleDay
-                  key={date.toISOString()}
-                  date={date}
-                  index={i + 1}
-                  endDate={trip.endDate}
-                  location={locations[i]?.location || ""}
-                  onLocationChange={(newLoc) => {
-                    const updated = [...locations];
-                    updated[i] = { location: newLoc, tripId: trip.id };
-                    setLocations(updated);
-                  }}
-                />
-              ))}
-            </div>
+          <div className="col-12 col-md-6 overflow-y-auto max-h-[80vh] pr-2">
+            {tripDates.map((date, i) => (
+              <ScheduleDay
+                key={date.toISOString()}
+                date={date}
+                index={i + 1}
+                endDate={trip.endDate}
+                location={locations[i]?.location || ""}
+                onLocationChange={(newLoc) => {
+                  const updated = [...locations];
+                  updated[i] = { location: newLoc, tripId: trip.id };
+                  setLocations(updated);
+                }}
+              />
+            ))}
           </div>
         </div>
       </main>

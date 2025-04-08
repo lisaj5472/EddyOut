@@ -19,5 +19,6 @@ export default function transformTrip(formData: TripFormData): TripData {
     putIn: formData.putIn,
     takeOut: formData.takeOut,
     crewNum: parsedCrewNum,
+    userName: formData.email,
   };
 }
