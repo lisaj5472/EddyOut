@@ -17,6 +17,7 @@ export default function App() {
         {/* Pre-login home page */}
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<SignUp />} />
 
         {/* Dashboard (list of user's trips after login) */}
         <Route path="/dashboard" element={<Dashboard />} />
