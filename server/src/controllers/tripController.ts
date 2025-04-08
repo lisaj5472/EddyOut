@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Trip } from "../models/trip";
+import { Trip } from "../models/trip.js";
 
 export const getAllTrips = async (_req: Request, res: Response) => {
     try {
@@ -24,6 +24,7 @@ export const getTripById = async (req: Request, res: Response) => {
     }
 };
 
+
 export const createTrip = async (req: Request, res: Response): Promise<void> => {
     const { riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId } = req.body;
 
@@ -31,6 +32,7 @@ export const createTrip = async (req: Request, res: Response): Promise<void> => 
         res.status(400).json({ message: "All fields are required" });
         return
     }
+
 
     try {
         const newTrip = await Trip.create({

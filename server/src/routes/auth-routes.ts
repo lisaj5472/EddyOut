@@ -1,35 +1,40 @@
-import express from "express";
-import { type Request, type Response } from "express";
+import express  from "express";
+import { Request,  Response } from "express";
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  try {
+    const { username, password } = req.body;
+  
+    const user = await User.findOne({
+      where: { username },
+    });
+    if (!user) {
+      res.status(401).json({ message: "Authentication failed" });
+      return
+    }
+  
+    const passwordIsValid = await bcrypt.compare(password, user.password);
+    if (!passwordIsValid) {
+      res.status(401).json({ message: "Authentication failed" });
+      return
+    }
+  
+    const secretKey = process.env.JWT_SECRET_KEY || "";
+  
+    const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: "1h" });
+    res.json({ token });
 
-  const user = await User.findOne({
-    where: { email },
-  });
-  if (!user) {
-    return res.status(401).json({ message: "Authentication failed" });
+  } catch (error) {
+    console.log('Error authenticating user', error)
   }
-
-  const passwordIsValid = await bcrypt.compare(password, user.password);
-  if (!passwordIsValid) {
-    return res.status(401).json({ message: "Authentication failed" });
-  }
-
-  const secretKey = process.env.JWT_SECRET_KEY || "";
-
-  const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
-  return res.json({ token });
 };
 
 const router = express.Router();
 
 // POST /login - Login a user
-router.post("api/login", (req, res, next) => {
-  login(req, res).catch(next);
-});
+router.post('/login', login);
 
 export default router;

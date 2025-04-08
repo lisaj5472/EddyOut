@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
-
+import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 import { login } from "../api/authAPI";
 import type { UserLogin } from "../interfaces/UserLogin";
@@ -20,11 +20,13 @@ const Login = () => {
     });
   };
 
+  const navigate = useNavigate();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const data = await login(loginData);
       Auth.login(data.token);
+      navigate("/dashboard");
     } catch (err) {
       console.error("Failed to login", err);
     }
@@ -35,11 +37,11 @@ const Login = () => {
       <form className="form login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div className="form-group">
-          <label>Username</label>
+          <label>Email</label>
           <input
             className="form-input"
             type="text"
-            name="username"
+            name="email"
             value={loginData.email || ""}
             onChange={handleChange}
           />

@@ -1,8 +1,12 @@
+
 import { useState, FormEvent, ChangeEvent } from "react";
-import { signup } from "../api/authAPI"; // You'll add this
-import Auth from "../utils/auth";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../api/authAPI"; // Assuming you created this
+import Auth from "../utils/auth"; // Assumes this handles storing the token
 
 export default function Signup() {
+  const Navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -11,20 +15,24 @@ export default function Signup() {
     password: "",
   });
 
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await signup(formData);
-      Auth.login(response.token); // optionally log them in immediately
+      Auth.login(response.token);
+      Navigate("/dashboard");
     } catch (err) {
-      console.error("Signup failed:", err);
+      console.error("Signup failed. Please try again.", err);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
