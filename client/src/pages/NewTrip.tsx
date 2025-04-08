@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { TripData, TripFormData } from "../interfaces/TripData";
-import transformTrip from "../utils/transformTrip";
+import { TripFormData } from "../interfaces/TripData";
 import { v4 as uuidv4 } from "uuid";
+import { createTrip } from "../api/tripAPI";
+import { useNavigate } from "react-router-dom";
 
 const NewTrip = () => {
   const [tripData, setTripData] = useState<TripFormData>({
@@ -11,7 +12,7 @@ const NewTrip = () => {
     putIn: "",
     takeOut: "",
     crewNum: "",
-    userName: "",
+    email: "",
   });
 
   const handleChange = (
@@ -24,15 +25,33 @@ const NewTrip = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const tripWithId: TripFormData = {
       ...tripData,
       id: uuidv4(), // Generate a unique ID for the trip
     };
-    const transformedTrip: TripData = transformTrip(tripWithId);
 
-    console.log("Submitted trip:", transformedTrip);
+    console.log("Submitted trip:", tripWithId);
+
+    try {
+      const result = await createTrip(tripWithId);
+
+      console.log("Trip created successfully:", result);
+      setTripData({
+        riverName: "",
+        startDate: "",
+        endDate: "",
+        putIn: "",
+        takeOut: "",
+        crewNum: "",
+        email: "",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error creating trip:", error);
+    }
   };
 
   return (
