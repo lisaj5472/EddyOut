@@ -1,10 +1,10 @@
-import express, { type RequestHandler } from "express";
+import express  from "express";
 import { Request,  Response } from "express";
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
-export const login:RequestHandler = async (req: Request, res: Response, next) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
   
@@ -12,21 +12,23 @@ export const login:RequestHandler = async (req: Request, res: Response, next) =>
       where: { username },
     });
     if (!user) {
-      return res.status(401).json({ message: "Authentication failed" });
+      res.status(401).json({ message: "Authentication failed" });
+      return
     }
   
     const passwordIsValid = await bcrypt.compare(password, user.password);
     if (!passwordIsValid) {
-      return res.status(401).json({ message: "Authentication failed" });
+      res.status(401).json({ message: "Authentication failed" });
+      return
     }
   
     const secretKey = process.env.JWT_SECRET_KEY || "";
   
     const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: "1h" });
-    return res.json({ token });
+    res.json({ token });
 
   } catch (error) {
-    next(error)
+    console.log('Error authenticating user', error)
   }
 };
 

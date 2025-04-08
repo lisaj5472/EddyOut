@@ -7,7 +7,9 @@ import Footer from "../components/Footer";
 
 export default function FloatPlan() {
   const [trip, setTrip] = useState<TripData | null>(null);
-  const [locations, setLocations] = useState<string[]>([]);
+  const [locations, setLocations] = useState<
+    { location: string; tripId: string }[]
+  >([]);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function FloatPlan() {
         new Date(data.endDate)
       ).length;
 
-      setLocations(Array(numDays).fill(""));
+      setLocations(Array(numDays).fill({ location: "", tripId: data.id }));
     }
     fetchTrip();
   }, [id]);
@@ -81,10 +83,10 @@ export default function FloatPlan() {
                   date={date}
                   index={i + 1}
                   endDate={trip.endDate}
-                  location={locations[i] || ""}
+                  location={locations[i]?.location || ""}
                   onLocationChange={(newLoc) => {
                     const updated = [...locations];
-                    updated[i] = newLoc;
+                    updated[i] = { location: newLoc, tripId: trip.id };
                     setLocations(updated);
                   }}
                 />

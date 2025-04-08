@@ -11,6 +11,7 @@ const NewTrip = () => {
     putIn: "",
     takeOut: "",
     crewNum: "",
+    userName: "",
   });
 
   const handleChange = (

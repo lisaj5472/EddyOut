@@ -12,6 +12,7 @@ export default function transformTrip(formData: TripFormData): TripData {
 
   return {
     id: formData.id,
+    userName: formData.userName,
     riverName: formData.riverName,
     startDate: new Date(formData.startDate),
     endDate: new Date(formData.endDate),

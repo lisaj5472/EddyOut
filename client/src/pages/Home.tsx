@@ -1,4 +1,5 @@
 import Login from "../components/Login";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -29,6 +30,12 @@ export default function Home() {
       {/* Login Sidebar */}
       <div className="w-full sm:w-96 bg-white bg-opacity-90 z-20 p-6 shadow-xl">
         <Login />
+        <p className="mt-4 text-sm">
+          New user?{" "}
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            Sign up!
+          </Link>
+        </p>
       </div>
     </div>
   );

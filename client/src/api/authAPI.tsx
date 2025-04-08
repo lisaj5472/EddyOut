@@ -1,7 +1,7 @@
-import { UserData } from "../interfaces/UserData";
+import { UserLogin } from "../interfaces/UserLogin";
 
 
-const login = async (userInfo: UserData) => {
+const login = async (userInfo: UserLogin) => {
     try {
         const response = await fetch(
             '/auth/login', {

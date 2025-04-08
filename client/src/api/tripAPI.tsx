@@ -1,6 +1,6 @@
 import { TripData } from "../interfaces/TripData";
 import Auth from "../utils/auth";
-import { GearList as GearListInterface } from "../interfaces/GearListData"
+// import { GearList as GearListInterface } from "../interfaces/GearListData"
 
 //
 
@@ -96,31 +96,31 @@ const updateTicket = async (
   }
 };
 
-const deleteTicket = async (ticketId: number): Promise<ApiMessage> => {
-  try {
-    const response = await fetch(`/api/tickets/${ticketId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Auth.getToken()}`,
-      },
-    });
-    const data = await response.json();
+// const deleteTicket = async (ticketId: number): Promise<ApiMessage> => {
+//   try {
+//     const response = await fetch(`/api/tickets/${ticketId}`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${Auth.getToken()}`,
+//       },
+//     });
+//     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error("invalid API response, check network tab!");
-    }
+//     if (!response.ok) {
+//       throw new Error("invalid API response, check network tab!");
+//     }
 
-    return data;
-  } catch (err) {
-    console.error("Error in deleting ticket", err);
-    return Promise.reject("Could not delete ticket");
-  }
-};
+//     return data;
+//   } catch (err) {
+//     console.error("Error in deleting ticket", err);
+//     return Promise.reject("Could not delete ticket");
+//   }
+// };
 
 export {
   createTicket,
-  deleteTicket,
+  // deleteTicket,
   retrieveTickets,
   retrieveTicket,
   updateTicket,
