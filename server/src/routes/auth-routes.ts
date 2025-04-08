@@ -6,17 +6,22 @@ import bcrypt from "bcrypt";
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({
-      where: { username },
+      where: { email },
+      attributes: { include: ["password"] },
     });
     if (!user) {
       res.status(401).json({ message: "Authentication failed" });
       return;
     }
+    console.log("🔐 User found:", user);
+    console.log("🔐 Password from client:", password);
+    console.log("🔐 Hashed password from DB:", user.password);
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
+    console.log("✅ Password is valid:", passwordIsValid);
     if (!passwordIsValid) {
       res.status(401).json({ message: "Authentication failed" });
       return;
@@ -47,13 +52,14 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("✅ Hashed password:", hashedPassword);
 
     const newUser = await User.create({
       firstName,
       lastName,
       username,
       email,
-      password: hashedPassword,
+      password,
     });
 
     const secretKey = process.env.JWT_SECRET_KEY || "";
