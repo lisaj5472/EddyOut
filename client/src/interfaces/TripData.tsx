@@ -11,7 +11,7 @@ export interface TripFormData {
 
 export interface TripData {
   id: string;
-  userName: string;
+  email: string;
   riverName: string;
   startDate: Date;
   endDate: Date;

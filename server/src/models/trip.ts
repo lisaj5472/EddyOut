@@ -1,5 +1,5 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
-import { User } from "./user.js";
+// import { User } from "./user.js";
 
 interface TripAttributes {
   id: number;
@@ -12,11 +12,12 @@ interface TripAttributes {
   organizerId: number;
 }
 
-interface TripCreationAttributes extends Optional<TripAttributes, "id"> { }
+interface TripCreationAttributes extends Optional<TripAttributes, "id"> {}
 
 export class Trip
   extends Model<TripAttributes, TripCreationAttributes>
-  implements TripAttributes {
+  implements TripAttributes
+{
   public id!: number;
   public riverName!: string;
   public startDate!: string;
@@ -48,7 +49,7 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         validate: {
           isBeforeEndDate(value: string) {
             if (new Date(value) >= new Date(this.endDate as string)) {
-              throw new Error('Start date must be before the end date');
+              throw new Error("Start date must be before the end date");
             }
           },
         },
@@ -59,7 +60,7 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         validate: {
           isAfterStartDate(value: string) {
             if (new Date(value) <= new Date(this.startDate as string)) {
-              throw new Error('End date must be after the start date');
+              throw new Error("End date must be after the start date");
             }
           },
         },
