@@ -8,7 +8,7 @@ import FloatPlan from "./pages/FloatPlan";
 import GearList from "./pages/GearList";
 import Meals from "./pages/Meals";
 import Crew from "./pages/Crew";
-// import SignUp from "./pages/SignUp"; // Placeholder for signup page
+import SignUp from "./pages/SignUp"; // Placeholder for signup page
 
 export default function App() {
   return (
@@ -16,7 +16,8 @@ export default function App() {
       <Routes>
         {/* Pre-login home page */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/signup" element={<SignUp />} /> */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<SignUp />} />
 
         {/* Dashboard (list of user's trips after login) */}
         <Route path="/dashboard" element={<Dashboard />} />

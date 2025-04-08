@@ -43,7 +43,7 @@ export function MealFactory(sequelize: Sequelize): typeof Meals {
       crewMember: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        // unique: true,
       },
       tripId: {
         type: DataTypes.INTEGER,

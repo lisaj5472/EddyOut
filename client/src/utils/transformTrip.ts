@@ -12,13 +12,12 @@ export default function transformTrip(formData: TripFormData): TripData {
 
   return {
     id: formData.id,
-    userName: formData.userName,
+    email: formData.email,
     riverName: formData.riverName,
     startDate: new Date(formData.startDate),
     endDate: new Date(formData.endDate),
     putIn: formData.putIn,
     takeOut: formData.takeOut,
     crewNum: parsedCrewNum,
-    userName: formData.email,
   };
 }
