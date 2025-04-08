@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Trip } from "../models/trip";
+import { Trip } from "../models/trip.js";
 
 export const getAllTrips = async (_req: Request, res: Response) => {
     try {
@@ -25,7 +25,7 @@ export const getTripById = async (req: Request, res: Response) => {
 };
 
 export const createTrip = async (req: Request, res: Response) => {
-    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId } = req.body;
+    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
     try {
         const newTrip = await Trip.create({ userName, riverName, startDate, endDate, putIn, takeOut, crewNum });
         res.status(201).json(newTrip);

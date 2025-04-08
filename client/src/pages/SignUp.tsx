@@ -1,3 +1,4 @@
+
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../api/authAPI"; // Assuming you created this
@@ -14,10 +15,12 @@ export default function Signup() {
     password: "",
   });
 
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,6 +32,7 @@ export default function Signup() {
       console.error("Signup failed. Please try again.", err);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">

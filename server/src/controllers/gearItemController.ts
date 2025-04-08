@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GearItem } from '../models/gearItem';
+import { GearItem } from '../models/gearItem.js';
 
 export const getAllGearItems = async (_req: Request, res: Response) => {
     try {

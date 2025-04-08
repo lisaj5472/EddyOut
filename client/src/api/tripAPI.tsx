@@ -1,3 +1,4 @@
+
 import { TripFormData } from "../interfaces/TripData";
 
 export async function getTrips() {
@@ -13,3 +14,4 @@ export async function createTrip(tripData: TripFormData) {
   });
   return res.json();
 }
+

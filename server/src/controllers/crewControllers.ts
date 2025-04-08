@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Crew } from '../models/crew';
+import { Crew } from '../models/crew.js';
 
-export const getAllCrew = async (_req: Request, res: Response) => {
+const getAllCrew = async (_req: Request, res: Response) => {
     try {
         const crew = await Crew.findAll();
         res.json(crew);
@@ -10,7 +10,7 @@ export const getAllCrew = async (_req: Request, res: Response) => {
     }
 };
 
-export const createCrew = async (req: Request, res: Response) => {
+const createCrew = async (req: Request, res: Response) => {
     try {
         const crew = await Crew.create(req.body);
         res.status(201).json(crew);
@@ -18,3 +18,6 @@ export const createCrew = async (req: Request, res: Response) => {
         res.status(400).json({ message: err.message });
     }
 };
+
+
+export { getAllCrew, createCrew}

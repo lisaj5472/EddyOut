@@ -93,7 +93,7 @@
 // Setup as route only (separation of concerns)
 
 import express from "express";
-import { getAllTrips, getTripById, createTrip, updateTrip, deleteTrip, } from "../../controllers/tripController";
+import { getAllTrips, getTripById, createTrip, updateTrip, deleteTrip, } from "../../controllers/tripController.js";
 
 const router = express.Router();
 

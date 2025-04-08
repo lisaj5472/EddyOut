@@ -1,4 +1,4 @@
-import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
+import { DataTypes, type Sequelize, Model } from "sequelize";
 
 
 //Create the items that are unique to crew
