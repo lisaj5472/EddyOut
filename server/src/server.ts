@@ -20,5 +20,5 @@ app.use(routes);
 
 // Comment this out after testing:
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT} (no DB sync)`);
+  console.log(`Server is listening on port http://localhost:${PORT} (no DB sync)`);
 });

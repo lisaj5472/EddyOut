@@ -1,14 +1,15 @@
-import { UserLogin } from "../interfaces/UserLogin";
+import { UserData } from "../interfaces/UserData";
 
-export const login = async (body: UserLogin) => {
+
+const login = async (userInfo: UserData) => {
     try {
         const response = await fetch(
-            'auth/login', {
+            '/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(userInfo)
             }
         )
         const data = await response.json();
@@ -22,5 +23,7 @@ export const login = async (body: UserLogin) => {
         console.log('Error with login')
         return Promise.reject('Could not login user')
     }
-}
+};
+
+export { login };
 
