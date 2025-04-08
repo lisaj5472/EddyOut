@@ -4,8 +4,8 @@ interface TripAttributes {
   id: number;
   userName: string;
   riverName: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   putIn: string;
   takeOut: string;
   crewNum: number;
@@ -19,8 +19,8 @@ export class Trip
   public id!: number;
   public userName!: string;
   public riverName!: string;
-  public startDate!: Date;
-  public endDate!: Date;
+  public startDate!: string;
+  public endDate!: string;
   public putIn!: string;
   public takeOut!: string;
   public crewNum!: number;
@@ -46,12 +46,26 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         allowNull: false,
       },
       startDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isBeforeEndDate(value: string) {
+            if (new Date(value) >= new Date(this.endDate as string)) {
+              throw new Error('Start date must be before the end date');
+            }
+          },
+        },
       },
       endDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isAfterStartDate(value: string) {
+            if (new Date(value) <= new Date(this.startDate as string)) {
+              throw new Error('End date must be after the start date');
+            }
+          },
+        },
       },
       putIn: {
         type: DataTypes.STRING,

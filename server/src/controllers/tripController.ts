@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { Trip } from "../models/trip";
+import { Request, Response, NextFunction } from "express";
+import { Trip } from "../models/trip.js";
 
 export const getAllTrips = async (_req: Request, res: Response) => {
     try {
@@ -24,23 +24,28 @@ export const getTripById = async (req: Request, res: Response) => {
     }
 };
 
-export const createTrip = async (req: Request, res: Response) => {
-    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum, organizerId } = req.body;
+export const createTrip = async (req: Request, res: Response): Promise<void> => {
+    const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
+    const userName = req.user?.username;
+
+    if (!userName || !riverName || !startDate || !endDate || !putIn || !takeOut || !crewNum) {
+        res.status(400).json({ message: "All fields are required" });
+    }
+
     try {
         const newTrip = await Trip.create({ userName, riverName, startDate, endDate, putIn, takeOut, crewNum });
         res.status(201).json(newTrip);
     } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message, details: error.errors || "No additional error details" });
     }
 };
 
 export const updateTrip = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { userName, riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
+    const { riverName, startDate, endDate, putIn, takeOut, crewNum } = req.body;
     try {
         const trip = await Trip.findByPk(id);
         if (trip) {
-            trip.userName = userName || trip.userName;
             trip.riverName = riverName || trip.riverName;
             trip.startDate = startDate || trip.startDate;
             trip.endDate = endDate || trip.startDate;
