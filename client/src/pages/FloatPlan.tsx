@@ -12,25 +12,44 @@ export default function FloatPlan() {
     { location: string; tripId: string }[]
   >([]);
   const { id } = useParams<{ id: string }>();
+  console.log("Trip ID from URL:", id);
 
   useEffect(() => {
     async function fetchTrip() {
-      const res = await fetch(`/api/trips/${id}`);
-      const data = await res.json();
+      if (!id) {
+        console.warn("No trip ID found in URL parameters.");
+        return;
+      }
 
-      setTrip({
-        ...data,
-        startDate: new Date(data.startDate),
-        endDate: new Date(data.endDate),
-      });
+      console.log("Trip ID from URL params:", id);
+      console.log("Fetching trip from:", `/api/trips/${id}`);
 
-      const numDays = getTripDates(
-        new Date(data.startDate),
-        new Date(data.endDate)
-      ).length;
+      try {
+        const res = await fetch(`/api/trips/${id}`);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch trip: ${res.statusText}`);
+        }
 
-      setLocations(Array(numDays).fill({ location: "", tripId: data.id }));
+        const data = await res.json();
+        console.log("Fetched trip data:", data);
+
+        setTrip({
+          ...data,
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
+        });
+
+        const numDays = getTripDates(
+          new Date(data.startDate),
+          new Date(data.endDate)
+        ).length;
+
+        setLocations(Array(numDays).fill({ location: "", tripId: data.id }));
+      } catch (err) {
+        console.error("Error fetching trip:", err);
+      }
     }
+
     fetchTrip();
   }, [id]);
 

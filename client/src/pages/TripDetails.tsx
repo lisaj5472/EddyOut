@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import TripSummaryCard from "../components/TripSummaryCard";
 import { getTrips } from "../api/tripAPI";
 import { TripData } from "../interfaces/TripData"; // Make sure this import is correct
+import { Outlet } from "react-router-dom";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -53,18 +54,7 @@ export default function TripDetails() {
         <div className="p-6 space-y-4">
           <TripSummaryCard trip={trip} />
           <div className="space-x-4 mt-4">
-            <Link to={`/trips/${id}/floatplan`} className="btn">
-              Float Plan
-            </Link>
-            <Link to={`/trips/${id}/meals`} className="btn">
-              Meals
-            </Link>
-            <Link to={`/trips/${id}/gear`} className="btn">
-              Gear List
-            </Link>
-            <Link to={`/trips/${id}/crew`} className="btn">
-              Crew
-            </Link>
+            <Outlet />
           </div>
         </div>
       </main>
