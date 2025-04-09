@@ -14,15 +14,12 @@ const Nav = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
+    <nav className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-md">
       {/* Logo */}
       <div className="flex items-center">
-        <Link
-          to="/"
-          className="text-2xl font-bold text-blue-600 hover:text-blue-800"
-        >
+        <Link to="/" className="hover:opacity-80 transition-opacity">
           <img
-            src="/logo.png"
+            src="/Favicon_EddyOut.png"
             alt="Logo"
             className="h-10 w-auto hover:opacity-80 transition-opacity"
           />
