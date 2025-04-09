@@ -2,7 +2,7 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 import bcrypt from "bcrypt";
 
 interface UserAttributes {
-  id: string;
+  id: number;
   username: string;
   email: string;
   password: string;
@@ -17,7 +17,7 @@ export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: string;
+  public id!: number;
   public username!: string;
   public email!: string;
   public password!: string;
@@ -42,8 +42,8 @@ export function UserFactory(sequelize: Sequelize): typeof User {
   User.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
       username: {
