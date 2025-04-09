@@ -2,14 +2,14 @@ import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 // import { User } from "./user.js";
 
 interface TripAttributes {
-  id: number;
+  id: string;
   riverName: string;
   startDate: string;
   endDate: string;
   putIn: string;
   takeOut: string;
   crewNum: number;
-  organizerId: number;
+  organizerId: string;
 }
 
 interface TripCreationAttributes extends Optional<TripAttributes, "id"> {}
@@ -18,14 +18,14 @@ export class Trip
   extends Model<TripAttributes, TripCreationAttributes>
   implements TripAttributes
 {
-  public id!: number;
+  public id!: string;
   public riverName!: string;
   public startDate!: string;
   public endDate!: string;
   public putIn!: string;
   public takeOut!: string;
   public crewNum!: number;
-  public organizerId!: number;
+  public organizerId!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -35,8 +35,8 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
   Trip.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       riverName: {
@@ -78,8 +78,14 @@ export function TripFactory(sequelize: Sequelize): typeof Trip {
         allowNull: false,
       },
       organizerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID, // ✅ match the type used in User
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
     },
     {

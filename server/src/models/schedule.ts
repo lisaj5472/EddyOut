@@ -1,49 +1,57 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
 interface ScheduleAttributes {
-    id: number;
-    date: Date;
-    campsite: string;
-    tripId:number;
+  id: string;
+  date: Date;
+  campsite: string;
+  tripId: string;
 }
 
-interface ScheduleCreationAttributes extends Optional<ScheduleAttributes, "id"> { }
+interface ScheduleCreationAttributes
+  extends Optional<ScheduleAttributes, "id"> {}
 
-export class Schedule 
-extends Model<ScheduleAttributes, ScheduleCreationAttributes> {
-    public id!: number;
-    public date!: Date;
-    public campsite!: string;
-    public tripId!: number;
+export class Schedule extends Model<
+  ScheduleAttributes,
+  ScheduleCreationAttributes
+> {
+  public id!: string;
+  public date!: Date;
+  public campsite!: string;
+  public tripId!: string;
 
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export function ScheduleFactory(sequelize: Sequelize): typeof Schedule {
-    Schedule.init({
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
+  Schedule.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      campsite: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      tripId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: "trips",
+          key: "id",
         },
-        date: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        campsite: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        tripId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
+      },
     },
-        {
-            tableName: 'schedule',
-            sequelize,
-        }
-    );
-    return Schedule;
+    {
+      tableName: "schedule",
+      sequelize,
+    }
+  );
+  return Schedule;
 }

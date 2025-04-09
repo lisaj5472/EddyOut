@@ -1,29 +1,23 @@
 import { Crew } from "../models/crew";
+import type { User } from "../models/user";
+import type { Trip } from "../models/trip";
 
-export const seedCrew = async () => {
+export const seedCrew = async (users: User[], trips: Trip[]) => {
   try {
     await Crew.bulkCreate([
       {
-        username: "justinv",
-        email: "justin@email.com",
-        tripName: "Happy",
-        tripId: 1,
+        userId: users[0].id,
+        tripId: trips[0].id,
       },
       {
-        username: "lisaj",
-        email: "lisaj@email.com",
-        tripName: "Happy",
-        tripId: 1,
+        userId: users[1].id,
+        tripId: trips[0].id,
       },
       {
-        username: "ellim",
-        email: "ellim@email.com",
-        tripName: "Happy",
-        tripId: 1,
+        userId: users[2].id,
+        tripId: trips[0].id,
       },
-    ],
-      { individualHooks: true }
-    );
+    ]);
     console.log("Crew seed data inserted successfully.");
   } catch (error) {
     console.error("Error seeding crew data:", error);
