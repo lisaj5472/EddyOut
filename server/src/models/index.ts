@@ -3,7 +3,7 @@ import { TripFactory } from "./trip";
 import { MealFactory } from "./meals";
 import { UserFactory } from "./user";
 import { CrewFactory } from "./crew";
-import { GearListFactory } from "./gearlist";
+import { GearListFactory } from "./gearList";
 import { GearItemFactory } from "./gearItem";
 import { ScheduleFactory } from "./schedule";
 

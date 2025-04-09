@@ -34,33 +34,46 @@ const Login = () => {
 
   return (
     <div className="form-container">
-      <form className="form login-form" onSubmit={handleSubmit}>
-        <h1>Login</h1>
-        <div className="form-group">
-          <label>Email</label>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
+
+        <div className="flex flex-col">
+          <label
+            htmlFor="email"
+            className="mb-1 text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
           <input
-            className="form-input"
+            id="email"
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="text"
             name="email"
             value={loginData.email || ""}
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
-          <label>Password</label>
+
+        <div className="flex flex-col">
+          <label
+            htmlFor="password"
+            className="mb-1 text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
           <input
-            className="form-input"
+            id="password"
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="password"
             name="password"
             value={loginData.password || ""}
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
-          <button className="btn btn-primary" type="submit">
-            Login
-          </button>
-        </div>
+
+        <button className="btn-dark" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );
