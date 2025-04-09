@@ -31,7 +31,7 @@ const Nav = () => {
 
       {/* Navigation Buttons */}
       <ul className="flex space-x-6 text-lg font-medium">
-        <li>
+        {/* <li>
           <Link
             to="/MyTrips"
             className={`${
@@ -42,7 +42,7 @@ const Nav = () => {
           >
             My Trips
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to="/NewTrip"
@@ -65,13 +65,13 @@ const Nav = () => {
         >
           Logout
         </button>
-        <Link to="/UserProfile">
+        {/* <Link to="/UserProfile">
           <img
             src="/path-to-avatar.jpg" // Replace with the actual avatar URL
             alt="User Avatar"
             className="w-10 h-10 rounded-full border-2 border-blue-600 hover:opacity-80 transition-opacity"
           />
-        </Link>
+        </Link> */}
       </div>
     </nav>
   );

@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { GearItem as GearItemInterface } from "../interfaces/GearItemData";
+import { TripData } from "../interfaces/TripData";
 import GearItem from "../components/GearItem";
-import { useParams } from "react-router-dom";
-// import AddGearForm from "./AddGearForm";
 
-// interface GearListProps {
-//     tripId: number;
-//     userId: number;
-// }
-
-const GearList: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const tripId = parseInt(id || "0");
+export default function GearList() {
+  const { trip } = useOutletContext<{ trip: TripData }>();
   const userId = 1;
-
-  const [gearItems, setGearItems] = useState<GearItemInterface[]>([]); // Array of gear items
+  const [gearItems, setGearItems] = useState<GearItemInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch gear items for the trip
+  const [showForm, setShowForm] = useState(false);
+  const [newItemName, setNewItemName] = useState("");
+
   const fetchGearItems = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/trips/${tripId}/gear`, {
+      const response = await fetch(`/api/trips/${trip.id}/gear`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -38,7 +33,6 @@ const GearList: React.FC = () => {
     }
   };
 
-  // Toggle claim status
   const handleClaimToggle = async (itemId: number) => {
     try {
       await fetch(`/api/gear/${itemId}/claim`, {
@@ -48,39 +42,101 @@ const GearList: React.FC = () => {
         },
         body: JSON.stringify({ userId }),
       });
-      fetchGearItems(); // Refresh the gear list after toggling claim
+      fetchGearItems();
     } catch (error) {
       console.error("Error toggling claim:", error);
     }
   };
 
+  const handleAddGear = async () => {
+    if (!newItemName.trim()) return;
+
+    try {
+      console.log("Sending new gear item:", newItemName);
+
+      const response = await fetch(`/api/trips/${trip.id}/gear`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newItemName,
+          claimedBy: null,
+          tripId: trip.id,
+        }),
+      });
+
+      const result = await response.json();
+      console.log("Response from server:", result);
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to add gear item");
+      }
+
+      setNewItemName("");
+      setShowForm(false);
+      fetchGearItems();
+    } catch (error) {
+      console.error("Error adding gear item:", error);
+      alert(`Error adding gear item: ${error}`);
+    }
+  };
+
   useEffect(() => {
-    fetchGearItems();
-  }, [tripId]);
-
-  if (loading) {
-    return <p>Loading gear items...</p>;
-  }
-
-  if (!gearItems || gearItems?.length === 0) {
-    return <p>No gear items found for this trip.</p>;
-  }
+    if (trip?.id) {
+      fetchGearItems();
+    }
+  }, [trip]);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Gear List</h1>
-      <ul className="space-y-2">
-        {gearItems.map((item) => (
-          <GearItem
-            key={item.id}
-            item={item}
-            userId={userId}
-            onClaimToggle={handleClaimToggle}
-          />
-        ))}
-      </ul>
+    <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
+      <h1 className="text-4xl font-header text-primary mb-6 text-center">
+        Gear List
+      </h1>
+
+      <div className="max-w-3xl mx-auto">
+        <button
+          className="bg-primary text-white px-4 py-2 rounded mb-4 hover:bg-dark-accent transition"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "Cancel" : "Add Gear Item"}
+        </button>
+
+        {showForm && (
+          <div className="mb-6 space-y-2">
+            <input
+              type="text"
+              value={newItemName}
+              onChange={(e) => setNewItemName(e.target.value)}
+              placeholder="Enter gear item name"
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              onClick={handleAddGear}
+            >
+              Submit
+            </button>
+          </div>
+        )}
+
+        {loading ? (
+          <p className="text-center">Loading gear items...</p>
+        ) : gearItems.length === 0 ? (
+          <p className="text-center">No gear items found for this trip.</p>
+        ) : (
+          <ul className="space-y-4">
+            {gearItems.map((item) => (
+              <GearItem
+                key={item.id}
+                item={item}
+                userId={userId}
+                onClaimToggle={handleClaimToggle}
+              />
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
-};
-
-export default GearList;
+}
