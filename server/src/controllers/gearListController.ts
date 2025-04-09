@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GearList } from "../models/gearList.js";
+import { GearList } from "../models/gearlist.js";
 
 export const getGearLists = async (_req: Request, res: Response) => {
   try {
