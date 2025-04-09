@@ -7,6 +7,7 @@ export interface TripFormData {
   putIn: string;
   takeOut: string;
   crewNum: string;
+  organizerId?: string;
 }
 
 export interface TripData {

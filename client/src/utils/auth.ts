@@ -5,6 +5,9 @@ class AuthService {
   getProfile() {
     return jwtDecode<UserData>(this.getToken());
   }
+  getUserId() {
+    return localStorage.getItem("userId");
+  }
 
   loggedIn() {
     const token = this.getToken();
@@ -30,10 +33,22 @@ class AuthService {
 
   login(idToken: string) {
     localStorage.setItem("id_token", idToken);
+
+    try {
+      const decoded = jwtDecode<UserData>(idToken);
+      if (decoded.id) {
+        localStorage.setItem("userId", decoded.id); // <-- NEW
+      } else {
+        console.warn("Decoded token missing user ID");
+      }
+    } catch (error) {
+      console.error("Failed to decode token", error);
+    }
   }
 
   logout() {
     localStorage.removeItem("id_token");
+    localStorage.removeItem("userId");
   }
 }
 

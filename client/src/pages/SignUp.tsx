@@ -23,6 +23,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       const response = await signup(formData);
+      console.log("Signup response:", response);
       Auth.login(response.token);
       Navigate("/dashboard");
     } catch (err) {

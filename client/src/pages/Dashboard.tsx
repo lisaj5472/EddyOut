@@ -4,6 +4,7 @@ import TripSummaryCard from "../components/TripSummaryCard";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import { getTrips } from "../api/tripAPI";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [trips, setTrips] = useState<TripData[]>([]);
@@ -24,9 +25,13 @@ export default function Dashboard() {
 
   if (trips.length === 0) {
     return (
-      <div className="text-center mt-10 text-textBody font-body text-lg">
-        You have not created any trips yet.
-      </div>
+      <>
+        <Nav />
+        <div className="text-center mt-10 text-textBody font-body text-lg">
+          You have not created any trips yet.
+        </div>
+        <Footer />
+      </>
     );
   }
 
@@ -70,7 +75,12 @@ export default function Dashboard() {
                 <h2 className="text-2xl font-bold text-center text-primary mb-2">
                   Most Current Trip
                 </h2>
-                <TripSummaryCard trip={mostCurrentTrip} />
+                <Link
+                  key={mostCurrentTrip.id}
+                  to={`/trips/${mostCurrentTrip.id}`}
+                >
+                  <TripSummaryCard trip={mostCurrentTrip} />
+                </Link>
               </section>
             )}
 
@@ -80,7 +90,9 @@ export default function Dashboard() {
                   Upcoming Trips
                 </h2>
                 {filteredFutureTrips.map((trip) => (
-                  <TripSummaryCard key={trip.id} trip={trip} />
+                  <Link key={trip.id} to={`/trips/${trip.id}`}>
+                    <TripSummaryCard trip={trip} />
+                  </Link>
                 ))}
               </section>
             )}
@@ -91,7 +103,9 @@ export default function Dashboard() {
                   Past Trips
                 </h2>
                 {filteredPastTrips.map((trip) => (
-                  <TripSummaryCard key={trip.id} trip={trip} />
+                  <Link key={trip.id} to={`/trips/${trip.id}`}>
+                    <TripSummaryCard trip={trip} />
+                  </Link>
                 ))}
               </section>
             )}
