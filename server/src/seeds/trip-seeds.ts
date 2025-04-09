@@ -5,7 +5,6 @@ export const seedTrip = async () => {
     await Trip.bulkCreate(
       [
         {
-          id: 1,
           riverName: "San Juan River",
           startDate: "2024-06-06",
           endDate: "2024-06-13",
@@ -15,7 +14,6 @@ export const seedTrip = async () => {
           organizerId: 1,
         },
         {
-          id: 2,
           riverName: "Gates of Lodore",
           startDate: "2025-07-06",
           endDate: "2025-07-11",
@@ -25,7 +23,6 @@ export const seedTrip = async () => {
           organizerId: 2,
         },
         {
-          id: 3,
           riverName: "Middle Fork of the Salmon",
           startDate: "2025-05-30",
           endDate: "2025-06-04",

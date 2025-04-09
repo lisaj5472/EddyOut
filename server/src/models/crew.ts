@@ -1,4 +1,4 @@
-import { DataTypes, type Sequelize, Model } from "sequelize";
+import { DataTypes, type Sequelize, Model, Optional } from "sequelize";
 
 
 //Create the items that are unique to crew
@@ -7,13 +7,15 @@ interface CrewAttributes {
     username: string;
     email: string;
     tripName: string;
-    tripId:number;
+    tripId: number;
 }
 
 
 
 //extends the trip information associated with the crew member
-export class Crew extends Model<CrewAttributes> {
+interface CrewCreationAttributes extends Optional<CrewAttributes, "id"> { }
+
+export class Crew extends Model<CrewAttributes, CrewCreationAttributes> {
     public id!: string;
     public username!: string;
     public email!: string;
@@ -21,7 +23,7 @@ export class Crew extends Model<CrewAttributes> {
     public tripId!: number;
 
     public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;    
+    public readonly updatedAt!: Date;
 }
 
 export function CrewFactory(sequelize: Sequelize): typeof Crew {
@@ -29,7 +31,7 @@ export function CrewFactory(sequelize: Sequelize): typeof Crew {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey:true,
+            primaryKey: true,
         },
         username: {
             type: DataTypes.STRING,
@@ -48,9 +50,9 @@ export function CrewFactory(sequelize: Sequelize): typeof Crew {
             allowNull: false,
         },
     },
-{
-    tableName: 'crew',
-    sequelize,
-});
-return Crew
+        {
+            tableName: 'crew',
+            sequelize,
+        });
+    return Crew
 }

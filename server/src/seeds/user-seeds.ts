@@ -4,7 +4,6 @@ export const seedUser = async () => {
     try {
         await User.bulkCreate([
             {
-                id: 1,
                 username: "justinv",
                 email: "justin@email.com",
                 password: "password",
@@ -12,16 +11,18 @@ export const seedUser = async () => {
                 lastName: "Vittitoe"
             },
             {
-                id: 2,
                 username: "lisaj",
                 email: "lisa@email.com",
                 password: "password",
+                firstName: "Lisa",
+                lastName: "Jorgensen"
             },
             {
-                id: 3,
                 username: "ellim",
                 email: "elli@email.com",
                 password: "password",
+                firstName: "Elli",
+                lastName: "Mckinley"
             },
         ],
             { individualHooks: true },
