@@ -30,7 +30,7 @@ const NewTrip = () => {
     e.preventDefault();
     const tripWithId: TripFormData = {
       ...tripData,
-      id: uuidv4(), // Generate a unique ID for the trip
+      id: uuidv4(),
     };
 
     console.log("Submitted trip:", tripWithId);

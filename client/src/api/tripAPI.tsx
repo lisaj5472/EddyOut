@@ -12,11 +12,11 @@ export async function getTrips() {
   });
 
   if (!res.ok) {
-    const errorText = await res.text(); // safely parse text instead of JSON
+    const errorText = await res.text();
     throw new Error(errorText || "Could not fetch trips");
   }
 
-  return res.json(); // if we get here, it’s safe to parse JSON
+  return res.json();
 }
 
 export async function createTrip(tripData: TripFormData) {

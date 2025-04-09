@@ -1,7 +1,7 @@
 import { UserLogin } from "./UserLogin";
 
 export interface UserData extends UserLogin {
-  id: number | null;
+  id: string | null;
   username?: string | null;
   firstname?: string | null;
   lastname?: string | null;

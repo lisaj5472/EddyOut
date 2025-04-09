@@ -9,6 +9,7 @@ import GearList from "./pages/GearList";
 import Meals from "./pages/Meals";
 import Crew from "./pages/Crew";
 import SignUp from "./pages/SignUp"; // Placeholder for signup page
+import NewTrip from "./pages/NewTrip";
 
 export default function App() {
   return (
@@ -24,6 +25,9 @@ export default function App() {
 
         {/* Trip details page (overview with links to sub-pages) */}
         <Route path="/trips/:id" element={<TripDetails />} />
+
+        {/* New trip creation page */}
+        <Route path="/newtrip" element={<NewTrip />} />
 
         {/* Trip sub-pages */}
         <Route path="/trips/:id/floatplan" element={<FloatPlan />} />
