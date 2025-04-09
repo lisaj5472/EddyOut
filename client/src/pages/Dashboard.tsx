@@ -57,62 +57,53 @@ export default function Dashboard() {
   );
 
   return (
-    <>
+    <div className="h-screen w-screen">
       <Nav />
-      <main className="flex-1">
-        <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
-          <h1 className="text-4xl font-header text-primary mb-6 text-center">
-            Trip Dashboard
-          </h1>
-          <p className="text-center text-lg mb-8">
+      <main>
+        <div className="dashboard-page">
+          <h1>Trip Dashboard</h1>
+          <p className="description">
             Here is a list of all available trips. Click each one to see more
             details or assign yourself to a crew or a task.
           </p>
 
-          <div className="space-y-6 max-w-4xl mx-auto">
-            {mostCurrentTrip && (
-              <section>
-                <h2 className="text-2xl font-bold text-center text-primary mb-2">
-                  Most Current Trip
-                </h2>
-                <Link
-                  key={mostCurrentTrip.id}
-                  to={`/trips/${mostCurrentTrip.id}`}
-                >
-                  <TripSummaryCard trip={mostCurrentTrip} />
+          {mostCurrentTrip && (
+            <section className="dashboard-section">
+              <h2>Most Current Trip</h2>
+              <Link
+                key={mostCurrentTrip.id}
+                to={`/trips/${mostCurrentTrip.id}`}
+              >
+                <TripSummaryCard trip={mostCurrentTrip} />
+              </Link>
+            </section>
+          )}
+
+          {futureTrips.length > 0 && (
+            <section className="dashboard-section">
+              <h2>Upcoming Trips</h2>
+              {filteredFutureTrips.map((trip) => (
+                <Link key={trip.id} to={`/trips/${trip.id}`}>
+                  <TripSummaryCard trip={trip} />
                 </Link>
-              </section>
-            )}
+              ))}
+            </section>
+          )}
 
-            {futureTrips.length > 0 && (
-              <section>
-                <h2 className="text-xl font-semibold text-center mb-2">
-                  Upcoming Trips
-                </h2>
-                {filteredFutureTrips.map((trip) => (
-                  <Link key={trip.id} to={`/trips/${trip.id}`}>
-                    <TripSummaryCard trip={trip} />
-                  </Link>
-                ))}
-              </section>
-            )}
-
-            {pastTrips.length > 0 && (
-              <section>
-                <h2 className="text-xl font-semibold text-center mb-2">
-                  Past Trips
-                </h2>
-                {filteredPastTrips.map((trip) => (
-                  <Link key={trip.id} to={`/trips/${trip.id}`}>
-                    <TripSummaryCard trip={trip} />
-                  </Link>
-                ))}
-              </section>
-            )}
-          </div>
+          {pastTrips.length > 0 && (
+            <section className="dashboard-section">
+              <h2>Past Trips</h2>
+              {filteredPastTrips.map((trip) => (
+                <Link key={trip.id} to={`/trips/${trip.id}`}>
+                  <TripSummaryCard trip={trip} />
+                </Link>
+              ))}
+            </section>
+          )}
         </div>
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 }
