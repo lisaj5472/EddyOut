@@ -95,12 +95,11 @@ export default function GearList() {
       </h1>
 
       <div className="max-w-3xl mx-auto">
-        <button
-          className="bg-primary text-white px-4 py-2 rounded mb-4 hover:bg-dark-accent transition"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "Cancel" : "Add Gear Item"}
-        </button>
+        <div className="flex justify-center mb-4">
+          <button className="btn-dark" onClick={() => setShowForm(!showForm)}>
+            {showForm ? "Cancel" : "Add Gear Item"}
+          </button>
+        </div>
 
         {showForm && (
           <div className="mb-6 space-y-2">
@@ -111,10 +110,7 @@ export default function GearList() {
               placeholder="Enter gear item name"
               className="w-full border border-gray-300 rounded px-3 py-2"
             />
-            <button
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-              onClick={handleAddGear}
-            >
+            <button className="btn-dark" onClick={handleAddGear}>
               Submit
             </button>
           </div>

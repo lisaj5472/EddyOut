@@ -103,6 +103,10 @@ button:focus-visible {
   border-radius: 0.375rem; /* rounded-md */
   transition: background-color 0.25s ease-in-out;
   cursor: pointer;
+  font-size: 0.875rem; /* text-sm */
+  padding: 0.25rem 0.75rem; /* py-1 px-3 */
+  width: 100%; /* w-full */
+  border-radius: 0.375rem; /* rounded-md */
 }
 
 .btn-dark:hover {
@@ -321,6 +325,12 @@ button:focus-visible {
     main {
       top: 64px;
       bottom: 32px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .btn-dark {
+      width: auto;
     }
   }
 }

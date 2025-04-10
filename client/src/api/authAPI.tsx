@@ -20,12 +20,13 @@ const signup = async (userInfo: SignupData) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Invalid user signup, please try again");
+      throw new Error(data.message || "Signup failed. Please try again");
     }
     return data;
   } catch (err) {
+    const error = err as Error;
     console.log("Error with signup", err);
-    return Promise.reject("Could not signup user");
+    return Promise.reject(error.message || "Could not signup user");
   }
 };
 
@@ -41,13 +42,14 @@ const login = async (userInfo: UserLogin) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Invalid user login, please try again");
+      throw new Error(data.message || "Login failed. Please try again");
     }
 
     return data;
   } catch (err) {
+    const error = err as Error;
     console.log("Error with login", err);
-    return Promise.reject("Could not login user");
+    return Promise.reject(error.message || "Could not login user");
   }
 };
 

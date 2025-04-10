@@ -9,6 +9,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -21,14 +22,20 @@ const Login = () => {
   };
 
   const navigate = useNavigate();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
     try {
       const data = await login(loginData);
       Auth.login(data.token);
       navigate("/dashboard");
     } catch (err) {
+      const error = err as Error;
       console.error("Failed to login", err);
+      setErrorMessage(
+        error.message || "Incorrect username or password. Please try again"
+      );
     }
   };
 
@@ -37,6 +44,11 @@ const Login = () => {
       <form className="space-y-6" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
 
+        {errorMessage && (
+          <div className="text-red-600 font-semibold text-sm text-center">
+            {errorMessage}
+          </div>
+        )}
         <div className="flex flex-col">
           <label
             htmlFor="email"
