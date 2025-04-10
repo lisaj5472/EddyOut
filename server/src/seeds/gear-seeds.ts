@@ -1,6 +1,6 @@
 import { GearItem } from "../models/gearItem.js";
 import type { User } from "../models/user.js";
-import type { GearList } from "../models/gearlist.js";
+import type { GearList } from "../models/gearList.js";
 import { v4 as uuidv4 } from "uuid";
 import type { Trip } from "../models/trip.js";
 
