@@ -1,11 +1,11 @@
 import { sequelize } from "../config/connection";
-import { TripFactory } from "./trip";
-import { MealFactory } from "./meals";
-import { UserFactory } from "./user";
-import { CrewFactory } from "./crew";
-import { GearListFactory } from "./gearList";
-import { GearItemFactory } from "./gearItem";
-import { ScheduleFactory } from "./schedule";
+import { TripFactory } from "./trip.js";
+import { MealFactory } from "./meals.js";
+import { UserFactory } from "./user.js";
+import { CrewFactory } from "./crew.js";
+import { GearListFactory } from "./gearlist.js";
+import { GearItemFactory } from "./gearItem.js";
+import { ScheduleFactory } from "./schedule.js";
 
 const Trip = TripFactory(sequelize);
 const Crew = CrewFactory(sequelize);
