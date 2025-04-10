@@ -1,6 +1,6 @@
 # EddyOut
 
-![EddyOut Logo](./src/assets/Logo_EddyOut.png)
+![Logo](./server/src/assets/Logo_EddyOut.png)
 
 ## Description
 
