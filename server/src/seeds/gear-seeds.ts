@@ -1,8 +1,8 @@
-import { GearItem } from "../models/gearItem";
-import type { User } from "../models/user";
-import type { GearList } from "../models/gearList";
+import { GearItem } from "../models/gearItem.js";
+import type { User } from "../models/user.js";
+import type { GearList } from "../models/gearlist.js";
 import { v4 as uuidv4 } from "uuid";
-import type { Trip } from "../models/trip";
+import type { Trip } from "../models/trip.js";
 
 export const seedGear = async (
   users: User[],
