@@ -58,31 +58,37 @@ export default function Meals() {
         Meal Plan
       </h1>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="col-12 col-md-6 overflow-y-auto max-h-[80vh] pr-2">
-          {tripDates.map((date, i) => (
-            <div key={date.toISOString()} className="mb-6">
-              <h2 className="text-xl font-bold mb-2">{date.toDateString()}</h2>
-              {meals[i]?.map((meal, j) => (
-                <DailyMeals
-                  key={`${date.toISOString()}-${meal.mealType}-${j}`}
-                  date={date}
-                  index={i + 1}
-                  endDate={trip.endDate}
-                  meal={meal}
-                  onMealChange={(field, value) => {
-                    const updated = [...meals];
-                    updated[i][j] = {
-                      ...meals[i][j],
-                      [field]: value,
-                    };
-                    setMeals(updated);
-                  }}
-                />
-              ))}
+      <div className="overflow-y-auto max-h-[80vh] pr-2 mx-auto">
+        {" "}
+        {tripDates.map((date, i) => (
+          <div key={date.toISOString()} className="mb-6">
+            <div className="text-center mb-2">
+              <h2 className="schedule-day-title">
+                {date.getTime() === trip.endDate.getTime()
+                  ? "Last Day"
+                  : `Day ${i + 1}`}
+              </h2>
+              <h2 className="schedule-day-date">{date.toDateString()}</h2>
             </div>
-          ))}
-        </div>
+            {meals[i]?.map((meal, j) => (
+              <DailyMeals
+                key={`${date.toISOString()}-${meal.mealType}-${j}`}
+                date={date}
+                index={i + 1}
+                endDate={trip.endDate}
+                meal={meal}
+                onMealChange={(field, value) => {
+                  const updated = [...meals];
+                  updated[i][j] = {
+                    ...meals[i][j],
+                    [field]: value,
+                  };
+                  setMeals(updated);
+                }}
+              />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -2,34 +2,38 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { TripData } from "../interfaces/TripData";
 import { UserData } from "../interfaces/UserData";
-import {CrewData} from "../interfaces/CrewData"
-import { retrieveCrew, retrieveUser, retrieveAllUsers, addCrewMember, deleteCrew } from "../api/crewAPI";
+import { CrewData } from "../interfaces/CrewData";
+import {
+  retrieveCrew,
+  retrieveUser,
+  retrieveAllUsers,
+  addCrewMember,
+  deleteCrew,
+} from "../api/crewAPI";
 // import { response } from "express";
 
 export default function Crew() {
   const { trip } = useOutletContext<{ trip: TripData }>();
   const [crew, setCrew] = useState<CrewData[]>([]);
   const [user, setUser] = useState<UserData | null>(null);
-  const [allUsers, setAllUsers] = useState<UserData[]>([]); 
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null); 
+  const [allUsers, setAllUsers] = useState<UserData[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   // const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     async function fetchCrew() {
       const token = localStorage.getItem("id_token");
-      const userId = localStorage.getItem("userId")
+      const userId = localStorage.getItem("userId");
       if (!token) {
         console.error("No auth token found");
         return;
       }
 
       try {
-        
-        const crewRes = await retrieveCrew(trip.id)
-        const userRes = await retrieveUser(userId)
-        const usersRes = await retrieveAllUsers()
-        
+        const crewRes = await retrieveCrew(trip.id);
+        const userRes = await retrieveUser(userId);
+        const usersRes = await retrieveAllUsers();
 
         if (!userRes) {
           throw new Error("Failed to fetch user data");
@@ -37,12 +41,10 @@ export default function Crew() {
         if (!crewRes) {
           throw new Error("Failed to fetch crew data");
         }
-        
-        
-        
+
         setUser(userRes);
         setCrew(crewRes);
-        setAllUsers(usersRes)
+        setAllUsers(usersRes);
       } catch (err) {
         console.error("Error fetching crew or user data", err);
       }
@@ -52,8 +54,6 @@ export default function Crew() {
       fetchCrew();
     }
   }, [refreshKey]);
-
-  
 
   async function handleJoinCrew() {
     const token = localStorage.getItem("id_token");
@@ -67,17 +67,17 @@ export default function Crew() {
     }
 
     try {
-      const addedCrewMember = await addCrewMember(trip.id, selectedUserId); 
+      const addedCrewMember = await addCrewMember(trip.id, selectedUserId);
       if (!addedCrewMember) {
         throw new Error("Failed to add user to crew");
       }
 
-      setRefreshKey((prevKey) => prevKey + 1); 
-      setSelectedUserId(null); 
+      setRefreshKey((prevKey) => prevKey + 1);
+      setSelectedUserId(null);
     } catch (err) {
       console.error("Error adding user to crew:", err);
     }
-  };
+  }
   // const handleUpdate = async (userId: string, body:string) => {
   //   const token = localStorage.getItem("token");
   //   if (!token) {
@@ -101,18 +101,17 @@ export default function Crew() {
       return;
     }
     try {
-      
-      const deleteUser = await deleteCrew(crewId)
-      if(!deleteUser) {
+      const deleteUser = await deleteCrew(crewId);
+      if (!deleteUser) {
         throw new Error("Failed to delete user from crew");
       }
-      setRefreshKey((prevKey)=> prevKey + 1)
+      setRefreshKey((prevKey) => prevKey + 1);
     } catch (err) {
-      console.log( err);
+      console.log(err);
     }
-  }
+  };
 
-  console.log(user)
+  console.log(user);
   if (!user) {
     return (
       <div className="text-center mt-10 text-textBody font-body text-lg">
@@ -131,18 +130,29 @@ export default function Crew() {
         <p className="text-center">No crew assigned to this trip yet.</p>
       ) : (
         <ul className="space-y-2 max-w-3xl mx-auto">
-            
           {crew.map((member) => (
-            <li key={member.user.id} className="bg-white p-4 rounded shadow">
-              <p className="font-semibold">
-                {member.user.firstName || ""} {member.user.lastName || ""} (
-                {member.user.username})
-              </p>
-              <p className="text-sm text-gray-500">{member.user.email}</p>
-              {/* <button onClick={() => handleUpdate(member.user.id)} className="mt-2 text-red-600 hover:text-red-800 p-2 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500">
-                📝
-              </button> */}
-              <button onClick={()=>handleDelete(member.id)} className="mt-2 text-red-600 hover:text-red-800 p-2 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500">
+            <li
+              key={member.user.id}
+              className="bg-white rounded-md shadow-sm px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border border-gray-200"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-800">
+                    {member.user.firstName || ""} {member.user.lastName || ""}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {member.user.username}
+                  </span>
+                </div>
+                <span className="text-sm text-gray-500">
+                  {member.user.email}
+                </span>
+              </div>
+
+              <button
+                onClick={() => handleDelete(member.id)}
+                className="text-red-600 hover:text-red-800 px-3 py-1 rounded-md text-sm transition duration-150"
+              >
                 🗑️
               </button>
             </li>
@@ -150,7 +160,9 @@ export default function Crew() {
         </ul>
       )}
       <div className="mt-8 text-center">
-        <h2 className="text-2xl font-header text-primary mb-4">Add a Crew Member</h2>
+        <h2 className="text-2xl font-header text-primary mb-4">
+          Add a Crew Member
+        </h2>
         <select
           value={selectedUserId || ""}
           onChange={(e) => setSelectedUserId(e.target.value)}
@@ -167,7 +179,7 @@ export default function Crew() {
         </select>
         <button
           onClick={handleJoinCrew}
-          className="ml-4 bg-primary text-white px-6 py-2 rounded shadow hover:bg-primary-dark"
+          className="btn-dark ml-4 bg-primary text-white px-6 py-2 rounded shadow hover:bg-primary-dark"
         >
           Add to Crew
         </button>

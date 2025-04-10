@@ -12,25 +12,21 @@ interface DailyMealsProps {
 }
 
 const DailyMeals: React.FC<DailyMealsProps> = ({
-  date,
+  // date,
   meal,
-  index,
-  endDate,
+  // index,
+  // endDate,
   onMealChange,
 }) => {
   return (
-    <div>
-      <h2>
-        {date.getTime() === endDate.getTime() ? "Last Day" : `Day ${index}`}
-      </h2>
-      <h2>{date.toLocaleDateString()}</h2>
-      <h3>
-        Meal: {""}
+    <div className="schedule-day-container">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 w-full mb-2">
+        <label className="font-semibold self-start sm:self-center">Meal:</label>
         {onMealChange ? (
           <select
             value={meal.mealType || ""}
             onChange={(e) => onMealChange("mealType", e.target.value)}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full sm:w-auto border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">-- Select Which Meal --</option>
             {MEAL_TYPES.map((type) => (
@@ -40,11 +36,16 @@ const DailyMeals: React.FC<DailyMealsProps> = ({
             ))}
           </select>
         ) : (
-          meal.mealType || ""
+          <span className="inline-block w-full sm:w-auto border border-transparent rounded-md px-3 py-2 text-gray-900">
+            {meal.mealType || "—"}
+          </span>
         )}
-      </h3>
-      <h3>
-        What are we eating? {""}
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 w-full mb-2">
+        <label className="font-semibold self-start sm:self-center">
+          What are we eating?
+        </label>
         {onMealChange ? (
           <input
             type="text"
@@ -55,9 +56,11 @@ const DailyMeals: React.FC<DailyMealsProps> = ({
         ) : (
           meal.mealName || ""
         )}
-      </h3>
-      <h3>
-        Who is bringing it? {""}
+      </div>
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 w-full mb-2">
+        <label className="font-semibold self-start sm:self-center">
+          Who is bringing it?{" "}
+        </label>
         {onMealChange ? (
           <input
             type="text"
@@ -68,7 +71,7 @@ const DailyMeals: React.FC<DailyMealsProps> = ({
         ) : (
           meal.crewMember || ""
         )}
-      </h3>
+      </div>
     </div>
   );
 };

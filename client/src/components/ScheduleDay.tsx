@@ -50,10 +50,7 @@ const ScheduleDay: React.FC<ScheduleDayProps> = ({
               onChange={(e) => onLocationChange(e.target.value)}
               className="w-full sm:w-auto border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              onClick={handleSaveClick}
-              className="btn-dark text-sm px-3 py-1 w-full sm:w-auto"
-            >
+            <button onClick={handleSaveClick} className="btn-dark">
               Save
             </button>
           </>
@@ -65,10 +62,7 @@ const ScheduleDay: React.FC<ScheduleDayProps> = ({
             >
               {location || "—"}
             </span>
-            <button
-              onClick={handleEditClick}
-              className="w-full sm:w-auto btn-dark text-sm px-3 py-1"
-            >
+            <button onClick={handleEditClick} className="btn-dark">
               Edit
             </button>
           </>
