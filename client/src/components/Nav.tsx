@@ -18,7 +18,7 @@ const Nav = () => {
       <div className="flex items-center">
         <Link to="/dashboard" className="hover:opacity-80 transition-opacity">
           <img
-            src="/Favicon_EddyOut.png"
+            src="/Logo_EddyOut.png"
             alt="Logo"
             className="h-10 w-auto hover:opacity-80 transition-opacity"
           />

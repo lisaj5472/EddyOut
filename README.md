@@ -8,7 +8,8 @@ Plan smarter. Paddle better.
 
 EDDYOUT is a full-stack web application built for outdoor adventurers and river trip organizers who want to streamline multi-day trip planning. From crew management to gear checklists and meal assignments, EDDYOUT centralizes the logistics so you can focus on the fun part—getting on the water. EDDYOUT was built to centralize planning, improve commmunication, and support our outdoor communities. IYKYK, those shared spreadsheets that Trip Leader sends around will 'do the job' but nobody really likes them and we're here to find a better way.
 
-Deployed Application: []()
+Deployed Application: [https://eddyout.onrender.com/](https://eddyout.onrender.com/)
+GitHub Repository: [https://github.com/lisaj5472/EddyOut](https://github.com/lisaj5472/EddyOut)
 
 ## Table of Contents
 
@@ -20,7 +21,7 @@ Deployed Application: []()
 - [Future Development](#future-development)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Contact](#contact)
-- [Resources](#resources)
+- [Screenshots](#screenshots)
 
 ## Features
 
@@ -103,3 +104,13 @@ Not accepting contributions at this time.
 - Justin Vittitoe - [justinvittitoe7@gmail.com](justinvittitoe7@gmail.com)
 
 Checkout our other GitHub projects: [@lisaj5472](https://github.com/lisaj5472), [@justinvittitoe](https://github.com/justinvittitoe), [@ellimckinley](https://github.com/ellimckinley).
+
+## Screenshots
+
+! [Login](./server/src/assets/login.png)
+! [Trip_Dashboard](./server/src/assets/dashboard.png)
+! [Schedule](./server/src/assets/schedule.png)
+! [Meals](./server/src/assets/meal.png)
+! [OarGanizer](./server/src/assets/gear.png)
+! [Crew](./server/src/assets/crew.png)
+! [Create_New_Trip](./server/src/assets/create_new_trip.png)
