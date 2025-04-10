@@ -2,7 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../api/authAPI";
 import Auth from "../utils/auth";
-import Nav from "../components/Nav";
+
 import Footer from "../components/Footer";
 
 export default function Signup() {
