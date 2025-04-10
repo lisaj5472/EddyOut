@@ -10,6 +10,17 @@ export const getUsers = async (_req: Request, res: Response) => {
     }
 };
 
+export const getUser = async (req:Request,res:Response) => {
+    const {id} = req.params
+    console.log(id)
+    try {
+        const user = await User.findByPk(id)
+        res.json(user)
+    } catch (err:any) {
+        res.status(500).json({message: err.message})
+    }
+}
+
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user = await User.create(req.body);
