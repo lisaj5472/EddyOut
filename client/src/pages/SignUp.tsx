@@ -2,11 +2,11 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../api/authAPI";
 import Auth from "../utils/auth";
-import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
 export default function Signup() {
   const Navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,11 +25,15 @@ export default function Signup() {
     e.preventDefault();
     try {
       const response = await signup(formData);
-      console.log("Signup response:", response);
       Auth.login(response.token);
       Navigate("/dashboard");
     } catch (err) {
-      console.error("Signup failed. Please try again.", err);
+      const error = err as Error;
+      console.error("Signup failed. Please try again.", error);
+      setErrorMessage(
+        error.message ||
+          "Email already in use. Please try again with a different email."
+      );
     }
   };
 
@@ -52,6 +56,12 @@ export default function Signup() {
             className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-4"
           >
             <h2 className="text-2xl font-bold text-center">Create Account</h2>
+
+            {errorMessage && (
+              <div className="text-red-600 font-semibold text-sm text-center">
+                {errorMessage}
+              </div>
+            )}
 
             {["firstName", "lastName", "username", "email", "password"].map(
               (field) => (
