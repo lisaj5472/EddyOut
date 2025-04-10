@@ -21,3 +21,7 @@ export default function transformTrip(formData: TripFormData): TripData {
     crewNum: parsedCrewNum,
   };
 }
+
+export function toDateOnlyString(date: Date | string): string {
+  return new Date(date).toISOString().split("T")[0];
+}

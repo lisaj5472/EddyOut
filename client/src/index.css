@@ -145,6 +145,27 @@ button:focus-visible {
 .dashboard-section {
   margin-bottom: 2rem;
 }
+.tripdetails-page {
+  font-family: var(--font-body);
+  color: var(--color-text-body);
+  padding: 1rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tripdetails-page .trip-summary h2 {
+  font-size: 1.25rem; /* ~text-xl */
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.tripdetails-page .trip-summary p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--color-text-body);
+}
 
 .trip-summary {
   font-family: var(--font-body);
@@ -174,13 +195,114 @@ button:focus-visible {
   color: var(--color-text-body);
 }
 
-.trip-summary:hover {
+.dashboard-page .trip-summary:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
-.trip-summary:hover h2 {
+.dashboard-page .trip-summary:hover h2 {
   color: var(--color-accent);
+}
+
+/* FloatPlan page styles */
+.schedule-day-container {
+  background-color: var(--color-light-neutral);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedule-day-title {
+  font-family: var(--font-header);
+  font-size: 1.25rem;
+  color: var(--color-dark-accent);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.schedule-day-date {
+  font-family: var(--font-header);
+  font-size: 1rem;
+  color: var(--color-dark-accent);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+.floatplan-content {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Reusable form layout styles */
+.trip-form {
+  max-width: 28rem; /* Tailwind's max-w-md */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem; /* Tailwind's p-4 */
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind's shadow */
+  border-radius: 0.5rem; /* Tailwind's rounded */
+}
+
+/* Headline style for form */
+.trip-form h2 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: var(--font-header);
+  color: var(--color-dark-accent);
+}
+
+/* Label + Input style */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-dark-accent);
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+/* TripDetails Tab Navigation Styles */
+.trip-tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.trip-tab-link {
+  padding: 0.5rem 1rem;
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 500;
+  color: #4b5563; /* Tailwind's gray-600 */
+  border-radius: 0.375rem 0.375rem 0 0;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.trip-tab-link:hover {
+  color: var(--color-primary);
+  background-color: #f3f4f6; /* Tailwind's gray-100 */
+}
+
+.trip-tab-link-active {
+  color: var(--color-primary);
+  border-bottom: 4px solid var(--color-accent);
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* subtle shadow */
 }
 
 @media (prefers-color-scheme: light) {

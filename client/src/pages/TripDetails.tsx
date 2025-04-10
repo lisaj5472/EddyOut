@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -6,13 +6,13 @@ import TripSummaryCard from "../components/TripSummaryCard";
 import { getTrips } from "../api/tripAPI";
 import { TripData } from "../interfaces/TripData"; // Make sure this import is correct.
 import { Outlet } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function TripDetails() {
-  const { id } = useParams<{ id: string }>();
+  const { tripId } = useParams<{ tripId: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
-  const location = useLocation();
 
+  console.log("🚨 tripId from useParams:", tripId);
   useEffect(() => {
     async function fetchTrip() {
       try {
@@ -22,9 +22,13 @@ export default function TripDetails() {
           startDate: new Date(trip.startDate),
           endDate: new Date(trip.endDate),
         }));
-        console.log("ID from URL:", id);
-        console.log("All Trips:", parsedTrips);
-        const foundTrip = parsedTrips.find((t) => t.id.toString() === id);
+        console.log("ID from URL:", tripId);
+
+        const foundTrip = parsedTrips.find((t) => {
+          console.log(`Comparing ${t.id} === ${tripId}`);
+          return t.id === tripId;
+        });
+
         if (foundTrip) {
           console.log("Matched Trip:", foundTrip);
           setTrip(foundTrip);
@@ -36,10 +40,10 @@ export default function TripDetails() {
       }
     }
 
-    if (id) {
+    if (tripId) {
       fetchTrip();
     }
-  }, [id]);
+  }, [tripId]);
 
   if (!trip) {
     return (
@@ -50,39 +54,63 @@ export default function TripDetails() {
   }
 
   return (
-    <>
+    <div className="h-screen w-screen">
       <Nav />
-      <main className="flex-1">
-        <div className="p-6 space-y-4">
+      <main>
+        <div className="tripdetails-page">
           <TripSummaryCard trip={trip} />
-          <div className="space-x-4 mt-4">
-            {location.pathname !== `/trips/${id}/floatplan` && (
-              <Link to={`/trips/${id}/floatplan`} className="btn">
-                Float Plan
-              </Link>
-            )}
-            {location.pathname !== `/trips/${id}/meals` && (
-              <Link to={`/trips/${id}/meals`} className="btn">
-                Meals
-              </Link>
-            )}
-            {location.pathname !== `/trips/${id}/gear` && (
-              <Link to={`/trips/${id}/gear`} className="btn">
-                Gear List
-              </Link>
-            )}
-            {location.pathname !== `/trips/${id}/crew` && (
-              <Link to={`/trips/${id}/crew`} className="btn">
-                Crew
-              </Link>
-            )}
+
+          {/* NAVBAR-STYLE TABS */}
+          <div className="flex justify-center gap-4 mb-6 border-b border-gray-300">
+            <NavLink
+              to={`/trips/${tripId}/floatplan`}
+              className={({ isActive }) =>
+                isActive
+                  ? "trip-tab-link trip-tab-link-active"
+                  : "trip-tab-link"
+              }
+            >
+              Float Plan
+            </NavLink>
+            <NavLink
+              to={`/trips/${tripId}/meals`}
+              className={({ isActive }) =>
+                isActive
+                  ? "trip-tab-link trip-tab-link-active"
+                  : "trip-tab-link"
+              }
+            >
+              Meals
+            </NavLink>
+            <NavLink
+              to={`/trips/${tripId}/gear`}
+              className={({ isActive }) =>
+                isActive
+                  ? "trip-tab-link trip-tab-link-active"
+                  : "trip-tab-link"
+              }
+            >
+              OarGanizer
+            </NavLink>
+            <NavLink
+              to={`/trips/${tripId}/crew`}
+              className={({ isActive }) =>
+                isActive
+                  ? "trip-tab-link trip-tab-link-active"
+                  : "trip-tab-link"
+              }
+            >
+              Crew
+            </NavLink>
           </div>
-          <div className="mt-6">
+
+          {/* OUTLET FOR NESTED COMPONENTS */}
+          <div className="mt-4">
             <Outlet context={{ trip }} />
           </div>
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

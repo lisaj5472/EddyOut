@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Trip details page (overview with links to sub-pages) */}
-        <Route path="/trips/:id" element={<TripDetails />}>
+        <Route path="/trips/:tripId" element={<TripDetails />}>
           <Route path="floatplan" element={<FloatPlan />} />
           <Route path="gear" element={<GearList />} />
           <Route path="meals" element={<Meals />} />

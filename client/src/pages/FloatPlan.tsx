@@ -2,11 +2,20 @@ import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
+import { fetchScheduleForTrip } from "../api/scheduleAPI";
+import { toDateOnlyString } from "../utils/transformTrip";
+import { createScheduleItem, updateScheduleItem } from "../api/scheduleAPI";
 
 export default function FloatPlan() {
   const { trip } = useOutletContext<{ trip: TripData }>();
   const [locations, setLocations] = useState<
-    { location: string; tripId: string }[]
+    {
+      location: string;
+      tripId: string;
+      date: string;
+      isSaved: boolean;
+      id?: string;
+    }[]
   >([]);
 
   function getTripDates(startDate: Date, endDate: Date): Date[] {
@@ -20,12 +29,37 @@ export default function FloatPlan() {
   }
 
   useEffect(() => {
-    if (trip) {
-      const tripDates = getTripDates(trip.startDate, trip.endDate);
-      setLocations(
-        Array(tripDates.length).fill({ location: "", tripId: trip.id })
-      );
+    async function loadSchedule() {
+      if (!trip?.id) return;
+
+      try {
+        const tripDates = getTripDates(trip.startDate, trip.endDate);
+        const schedule = await fetchScheduleForTrip(trip.id);
+
+        const filled = tripDates.map((date) => {
+          const formattedTripDate = toDateOnlyString(date);
+
+          const item = schedule.find((s) => {
+            const formattedScheduleDate = toDateOnlyString(s.date);
+            return formattedScheduleDate === formattedTripDate;
+          });
+
+          return {
+            location: item?.campsite || "",
+            tripId: trip.id,
+            date: formattedTripDate,
+            isSaved: Boolean(item?.campsite),
+            id: item?.id,
+          };
+        });
+
+        setLocations(filled);
+      } catch (err) {
+        console.error("Error loading schedule:", err);
+      }
     }
+
+    loadSchedule();
   }, [trip]);
 
   if (!trip) {
@@ -41,10 +75,10 @@ export default function FloatPlan() {
   return (
     <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
       <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Float Plan
+        Campsite Schedule
       </h1>
 
-      <div className="col-12 col-md-6 overflow-y-auto max-h-[80vh] pr-2">
+      <div className="floatplan-content">
         {tripDates.map((date, i) => (
           <ScheduleDay
             key={date.toISOString()}
@@ -52,10 +86,45 @@ export default function FloatPlan() {
             index={i + 1}
             endDate={trip.endDate}
             location={locations[i]?.location || ""}
+            isSaved={locations[i]?.isSaved}
             onLocationChange={(newLoc) => {
               const updated = [...locations];
-              updated[i] = { location: newLoc, tripId: trip.id };
+              updated[i] = {
+                ...updated[i],
+                location: newLoc,
+                isSaved: false, // mark as edited
+              };
               setLocations(updated);
+            }}
+            onSave={async () => {
+              const entry = locations[i];
+              try {
+                if (entry.id) {
+                  await updateScheduleItem(entry.id, {
+                    campsite: entry.location,
+                  });
+
+                  const updated = [...locations];
+                  updated[i] = { ...updated[i], isSaved: true };
+                  setLocations(updated);
+                } else {
+                  const newItem = await createScheduleItem({
+                    campsite: entry.location,
+                    tripId: entry.tripId,
+                    date: entry.date,
+                  });
+
+                  const updated = [...locations];
+                  updated[i] = {
+                    ...updated[i],
+                    id: newItem.id,
+                    isSaved: true,
+                  };
+                  setLocations(updated);
+                }
+              } catch (err) {
+                console.error("Error saving schedule item:", err);
+              }
             }}
           />
         ))}
