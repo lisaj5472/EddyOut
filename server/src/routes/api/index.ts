@@ -10,7 +10,7 @@ import { userRouter } from "./user-routes.js";
 
 const router = Router();
 
-router.use("/crew", crewRouter);
+router.use("/trips/crew", crewRouter);
 router.use("/gear", gearListRouter);
 router.use("/meals", mealRouter);
 router.use("/trips", tripRouter);

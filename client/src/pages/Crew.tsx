@@ -2,76 +2,117 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { TripData } from "../interfaces/TripData";
 import { UserData } from "../interfaces/UserData";
+import {CrewData} from "../interfaces/CrewData"
+import { retrieveCrew, retrieveUser, retrieveAllUsers, addCrewMember, deleteCrew } from "../api/crewAPI";
+// import { response } from "express";
 
 export default function Crew() {
   const { trip } = useOutletContext<{ trip: TripData }>();
-  const [crew, setCrew] = useState<UserData[]>([]);
+  const [crew, setCrew] = useState<CrewData[]>([]);
   const [user, setUser] = useState<UserData | null>(null);
-  const [isMember, setIsMember] = useState(false);
+  const [allUsers, setAllUsers] = useState<UserData[]>([]); 
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null); 
+  const [refreshKey, setRefreshKey] = useState(0);
+  // const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     async function fetchCrew() {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("id_token");
+      const userId = localStorage.getItem("userId")
       if (!token) {
         console.error("No auth token found");
         return;
       }
 
       try {
-        const [userRes, crewRes] = await Promise.all([
-          fetch("/api/me", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          fetch(`/api/trips/${trip.id}/crew`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
+        
+        const crewRes = await retrieveCrew(trip.id)
+        const userRes = await retrieveUser(userId)
+        const usersRes = await retrieveAllUsers()
+        
 
-        if (!userRes.ok || !crewRes.ok) {
-          throw new Error("Failed to fetch crew or user data");
+        if (!userRes) {
+          throw new Error("Failed to fetch user data");
         }
-
-        const userData = await userRes.json();
-        const crewData = await crewRes.json();
-
-        setUser(userData);
-        setCrew(crewData);
-        setIsMember(
-          crewData.some((member: UserData) => member.id === userData.id)
-        );
+        if (!crewRes) {
+          throw new Error("Failed to fetch crew data");
+        }
+        
+        
+        
+        setUser(userRes);
+        setCrew(crewRes);
+        setAllUsers(usersRes)
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching crew or user data", err);
       }
     }
 
     if (trip?.id) {
       fetchCrew();
     }
-  }, [trip]);
+  }, [refreshKey]);
+
+  
 
   async function handleJoinCrew() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("id_token");
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+    if (!selectedUserId) {
+      console.error("No user selected");
+      return;
+    }
 
     try {
-      const res = await fetch(`/api/trips/${trip.id}/crew`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.ok && user) {
-        setCrew((prev) =>
-          prev.some((m) => m.id === user.id) ? prev : [...prev, user]
-        );
-        setIsMember(true);
+      const addedCrewMember = await addCrewMember(trip.id, selectedUserId); 
+      if (!addedCrewMember) {
+        throw new Error("Failed to add user to crew");
       }
-    } catch (error) {
-      console.error("Error joining crew:", error);
+
+      setRefreshKey((prevKey) => prevKey + 1); 
+      setSelectedUserId(null); 
+    } catch (err) {
+      console.error("Error adding user to crew:", err);
+    }
+  };
+  // const handleUpdate = async (userId: string, body:string) => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     console.error("No auth token found");
+  //     return;
+  //   }
+  //   try {
+  //     const updateUser = await updateCrew(userId, body)
+  //     if (!updateUser) {
+  //       throw new Error("Failed to delete user from crew");
+  //     }
+  //     setRefreshKey((prevKey) => prevKey + 1)
+  //   } catch (err) {
+  //     console.log("Error deleting user", err);
+  //   }
+  // }
+  const handleDelete = async (crewId: string) => {
+    const token = localStorage.getItem("id_token");
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+    try {
+      
+      const deleteUser = await deleteCrew(crewId)
+      if(!deleteUser) {
+        throw new Error("Failed to delete user from crew");
+      }
+      setRefreshKey((prevKey)=> prevKey + 1)
+    } catch (err) {
+      console.log( err);
     }
   }
 
+  console.log(user)
   if (!user) {
     return (
       <div className="text-center mt-10 text-textBody font-body text-lg">
@@ -90,28 +131,47 @@ export default function Crew() {
         <p className="text-center">No crew assigned to this trip yet.</p>
       ) : (
         <ul className="space-y-2 max-w-3xl mx-auto">
+            
           {crew.map((member) => (
-            <li key={member.id} className="bg-white p-4 rounded shadow">
+            <li key={member.user.id} className="bg-white p-4 rounded shadow">
               <p className="font-semibold">
-                {member.firstname || ""} {member.lastname || ""} (
-                {member.username})
+                {member.user.firstName || ""} {member.user.lastName || ""} (
+                {member.user.username})
               </p>
-              <p className="text-sm text-gray-500">{member.email}</p>
+              <p className="text-sm text-gray-500">{member.user.email}</p>
+              {/* <button onClick={() => handleUpdate(member.user.id)} className="mt-2 text-red-600 hover:text-red-800 p-2 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500">
+                📝
+              </button> */}
+              <button onClick={()=>handleDelete(member.id)} className="mt-2 text-red-600 hover:text-red-800 p-2 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500">
+                🗑️
+              </button>
             </li>
           ))}
         </ul>
       )}
-
-      {!isMember && (
-        <div className="mt-8 text-center">
-          <button
-            onClick={handleJoinCrew}
-            className="bg-primary text-white px-6 py-2 rounded shadow hover:bg-primary-dark"
-          >
-            Join This Crew
-          </button>
-        </div>
-      )}
+      <div className="mt-8 text-center">
+        <h2 className="text-2xl font-header text-primary mb-4">Add a Crew Member</h2>
+        <select
+          value={selectedUserId || ""}
+          onChange={(e) => setSelectedUserId(e.target.value)}
+          className="border border-gray-300 rounded px-4 py-2"
+        >
+          <option value="" disabled>
+            Select a user by email
+          </option>
+          {allUsers.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.email}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={handleJoinCrew}
+          className="ml-4 bg-primary text-white px-6 py-2 rounded shadow hover:bg-primary-dark"
+        >
+          Add to Crew
+        </button>
+      </div>
     </div>
   );
 }

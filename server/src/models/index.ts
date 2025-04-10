@@ -23,6 +23,10 @@ Trip.belongsTo(User, { foreignKey: "organizerId", as: "organizer" });
 Trip.hasMany(Crew, { foreignKey: "tripId", onDelete: "CASCADE", as: "crew" });
 Crew.belongsTo(Trip, { foreignKey: "tripId" });
 
+//Crew -User
+Crew.belongsTo(User, { foreignKey: "userId", as: "user"});
+User.hasMany(Crew, {foreignKey: "userId", as: "user"});
+
 // Trip - Meal
 Trip.hasMany(Meal, { foreignKey: "tripId", onDelete: "CASCADE", as: "meals" });
 Meal.belongsTo(Trip, { foreignKey: "tripId" });
