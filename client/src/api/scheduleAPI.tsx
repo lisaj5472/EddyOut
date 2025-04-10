@@ -33,3 +33,44 @@ export async function fetchScheduleForTrip(
   }
   return res.json();
 }
+
+export async function createScheduleItem(data: {
+  campsite: string;
+  tripId: string;
+  date: string;
+}) {
+  const token = localStorage.getItem("id_token");
+
+  const res = await fetch("/api/schedule", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error("Failed to create schedule item");
+
+  return res.json();
+}
+
+export async function updateScheduleItem(
+  id: string,
+  data: { campsite: string }
+) {
+  const token = localStorage.getItem("id_token");
+
+  const res = await fetch(`/api/schedule/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error("Failed to update schedule item");
+
+  return res.json();
+}

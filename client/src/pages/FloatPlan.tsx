@@ -4,11 +4,18 @@ import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
 import { fetchScheduleForTrip } from "../api/scheduleAPI";
 import { toDateOnlyString } from "../utils/transformTrip";
+import { createScheduleItem, updateScheduleItem } from "../api/scheduleAPI";
 
 export default function FloatPlan() {
   const { trip } = useOutletContext<{ trip: TripData }>();
   const [locations, setLocations] = useState<
-    { location: string; tripId: string }[]
+    {
+      location: string;
+      tripId: string;
+      date: string;
+      isSaved: boolean;
+      id?: string;
+    }[]
   >([]);
 
   function getTripDates(startDate: Date, endDate: Date): Date[] {
@@ -24,38 +31,25 @@ export default function FloatPlan() {
   useEffect(() => {
     async function loadSchedule() {
       if (!trip?.id) return;
-      console.log("Trip ID:", trip.id);
 
       try {
         const tripDates = getTripDates(trip.startDate, trip.endDate);
         const schedule = await fetchScheduleForTrip(trip.id);
 
-        console.log("🎯 Raw schedule response from API:");
-        schedule.forEach((item, idx) => {
-          console.log(`[${idx}]`, {
-            date: item.date,
-            normalized: new Date(item.date).toISOString().split("T")[0],
-            location: item.campsite,
-            tripId: item.tripId,
-          });
-        });
-
-        const filled = tripDates.map((date, i) => {
+        const filled = tripDates.map((date) => {
           const formattedTripDate = toDateOnlyString(date);
 
           const item = schedule.find((s) => {
             const formattedScheduleDate = toDateOnlyString(s.date);
-            console.log(
-              `🆚 Comparing: tripDate = ${formattedTripDate} | scheduleDate = ${formattedScheduleDate}`
-            );
             return formattedScheduleDate === formattedTripDate;
           });
-
-          console.log(`✅ Matched for ${formattedTripDate}:`, item?.campsite);
 
           return {
             location: item?.campsite || "",
             tripId: trip.id,
+            date: formattedTripDate,
+            isSaved: Boolean(item?.campsite),
+            id: item?.id,
           };
         });
 
@@ -92,10 +86,45 @@ export default function FloatPlan() {
             index={i + 1}
             endDate={trip.endDate}
             location={locations[i]?.location || ""}
+            isSaved={locations[i]?.isSaved}
             onLocationChange={(newLoc) => {
               const updated = [...locations];
-              updated[i] = { location: newLoc, tripId: trip.id };
+              updated[i] = {
+                ...updated[i],
+                location: newLoc,
+                isSaved: false, // mark as edited
+              };
               setLocations(updated);
+            }}
+            onSave={async () => {
+              const entry = locations[i];
+              try {
+                if (entry.id) {
+                  await updateScheduleItem(entry.id, {
+                    campsite: entry.location,
+                  });
+
+                  const updated = [...locations];
+                  updated[i] = { ...updated[i], isSaved: true };
+                  setLocations(updated);
+                } else {
+                  const newItem = await createScheduleItem({
+                    campsite: entry.location,
+                    tripId: entry.tripId,
+                    date: entry.date,
+                  });
+
+                  const updated = [...locations];
+                  updated[i] = {
+                    ...updated[i],
+                    id: newItem.id,
+                    isSaved: true,
+                  };
+                  setLocations(updated);
+                }
+              } catch (err) {
+                console.error("Error saving schedule item:", err);
+              }
             }}
           />
         ))}
