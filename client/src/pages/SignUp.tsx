@@ -2,6 +2,8 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../api/authAPI";
 import Auth from "../utils/auth";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default function Signup() {
   const Navigate = useNavigate();
@@ -32,36 +34,53 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-4"
-      >
-        <h2 className="text-2xl font-bold text-center">Create Account</h2>
-        {["firstName", "lastName", "username", "email", "password"].map(
-          (field) => (
-            <div key={field}>
-              <label className="block text-sm font-medium capitalize">
-                {field}
-              </label>
-              <input
-                type={field === "password" ? "password" : "text"}
-                name={field}
-                value={(formData as any)[field]}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-                required
-              />
-            </div>
-          )
-        )}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
-        >
-          Sign Up
-        </button>
-      </form>
+    <div className="h-screen w-screen">
+      <div className="h-screen w-screen flex flex-col md:flex-row">
+        {/* Left side: Logo area */}
+        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+          <img
+            src="/Logo_whitenobg_EddyOut.png"
+            alt="Eddy Out Logo"
+            className="max-w-xs w-full object-contain"
+          />
+        </div>
+
+        {/* Right side: Sign up form */}
+        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-4"
+          >
+            <h2 className="text-2xl font-bold text-center">Create Account</h2>
+
+            {["firstName", "lastName", "username", "email", "password"].map(
+              (field) => (
+                <div key={field}>
+                  <label className="block text-sm font-medium capitalize">
+                    {field}
+                  </label>
+                  <input
+                    type={field === "password" ? "password" : "text"}
+                    name={field}
+                    value={(formData as any)[field]}
+                    onChange={handleChange}
+                    className="w-full p-2 border border-gray-300 rounded"
+                    required
+                  />
+                </div>
+              )
+            )}
+
+            <button type="submit" className="btn-dark">
+              Sign Up
+            </button>
+          </form>
+        </div>
+
+        <Footer />
+      </div>
+
+      <Footer />
     </div>
   );
 }

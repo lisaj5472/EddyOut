@@ -16,12 +16,12 @@ const ScheduleDay: React.FC<ScheduleDayProps> = ({
   onLocationChange,
 }) => {
   return (
-    <div className="schedule-day">
-      <h2>
+    <div className="schedule-day-container">
+      <h2 className="schedule-day-title">
         {date.getTime() === endDate.getTime() ? "Last Day" : `Day ${index}`}
       </h2>
-      <h2>{date.toLocaleDateString()}</h2>
-      <h3>
+      <h2 className="schedule-day-date">{date.toLocaleDateString()}</h2>
+      <h3 className="schedule-day-date">
         Campsite: {""}
         {onLocationChange ? (
           <input

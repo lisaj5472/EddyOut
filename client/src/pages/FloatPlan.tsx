@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import ScheduleDay from "../components/ScheduleDay";
 import { TripData } from "../interfaces/TripData";
+import { fetchScheduleForTrip } from "../api/scheduleAPI";
+import { toDateOnlyString } from "../utils/transformTrip";
 
 export default function FloatPlan() {
   const { trip } = useOutletContext<{ trip: TripData }>();
@@ -20,12 +22,50 @@ export default function FloatPlan() {
   }
 
   useEffect(() => {
-    if (trip) {
-      const tripDates = getTripDates(trip.startDate, trip.endDate);
-      setLocations(
-        Array(tripDates.length).fill({ location: "", tripId: trip.id })
-      );
+    async function loadSchedule() {
+      if (!trip?.id) return;
+      console.log("Trip ID:", trip.id);
+
+      try {
+        const tripDates = getTripDates(trip.startDate, trip.endDate);
+        const schedule = await fetchScheduleForTrip(trip.id);
+
+        console.log("🎯 Raw schedule response from API:");
+        schedule.forEach((item, idx) => {
+          console.log(`[${idx}]`, {
+            date: item.date,
+            normalized: new Date(item.date).toISOString().split("T")[0],
+            location: item.campsite,
+            tripId: item.tripId,
+          });
+        });
+
+        const filled = tripDates.map((date, i) => {
+          const formattedTripDate = toDateOnlyString(date);
+
+          const item = schedule.find((s) => {
+            const formattedScheduleDate = toDateOnlyString(s.date);
+            console.log(
+              `🆚 Comparing: tripDate = ${formattedTripDate} | scheduleDate = ${formattedScheduleDate}`
+            );
+            return formattedScheduleDate === formattedTripDate;
+          });
+
+          console.log(`✅ Matched for ${formattedTripDate}:`, item?.campsite);
+
+          return {
+            location: item?.campsite || "",
+            tripId: trip.id,
+          };
+        });
+
+        setLocations(filled);
+      } catch (err) {
+        console.error("Error loading schedule:", err);
+      }
     }
+
+    loadSchedule();
   }, [trip]);
 
   if (!trip) {
@@ -41,10 +81,10 @@ export default function FloatPlan() {
   return (
     <div className="bg-light-neutral min-h-screen py-10 px-4 font-body text-textBody">
       <h1 className="text-4xl font-header text-primary mb-6 text-center">
-        Float Plan
+        Campsite Schedule
       </h1>
 
-      <div className="col-12 col-md-6 overflow-y-auto max-h-[80vh] pr-2">
+      <div className="floatplan-content">
         {tripDates.map((date, i) => (
           <ScheduleDay
             key={date.toISOString()}
